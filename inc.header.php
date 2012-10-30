@@ -17,15 +17,16 @@ if((isset($_GET['s']) && $_GET['s']) || $_POST['s']) {
 
 }
 
-if(is_logged_in()) {
-	
-}
 
 ?><!doctype html>
 <html lang="no">
 <head>
-	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+	<title><?php echo $title; ?></title>
+	<meta type="description" content="" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/styles.css" />
-
+	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
 <body>
+	<!-- wrapper -->
+	<!-- top, menu -->
