@@ -1,9 +1,9 @@
 <?php
 /*
 	Page: inc.header.php
-	Desc: Prepares pages\menus then displays HTML
+	Desc: Prepares pages\menus then displays as HTML5
 */
-include_once 'config.php';
+include_once "config.php";
 
 // startup and check
 session_start();
@@ -22,7 +22,7 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
   if($_GET['s'] || $_POST['s']) {
     
   }
-  // Prepare 
+  // Prepare instances
   if(is_logged_in()) {
     
   }
@@ -32,12 +32,23 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
 ?><!doctype html>
 <html lang="no">
 <head>
-	<title><?php echo $title; ?></title>
-	<meta type="description" content="" />
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/styles.css" />
-	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+  <title><?php echo $title; ?></title>
+  <meta type="description" content="" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" />
+  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/styles.css" />
+  <?php if(is_logged_in()) echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />'; ?>
+  <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
 <body>
-	<!-- wrapper -->
-	<!-- top, menu -->
+  <div id="wrapper">
+  <div id="menu">
+  <p id="logo"><a href="http://www.psychaid.no/"><img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" /></a></p>
+  <?php menu($page); ?>
+  </div>
+  <div id="content">
+  <div id="pageContent">
+  
+  
+  
+

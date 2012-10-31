@@ -15,62 +15,59 @@ function removeWhiteSpace($toBeFixed) {
 
 // Check if user is logged in or not
 function is_logged_in() {
-	if(isset($_SESSION['valid']) && $_SESSION['valid'])
-       	return true;
-   	return false;
+  if(isset($_SESSION['valid']) && $_SESSION['valid'])
+    return true;
+  return false;
 }
 
-
+// Top tabbed-menu
 function menu($loggedin, $selected) {
-		echo '<ul id="nav">';
+		echo '<ul id="nav" class="menu">';
 		if(!$loggedin) {
-			($selected == 'login')? $this->lia('?page=login', 'Logg inn', 'selected') : $this->lia('?page=login', 'Logg inn', '');
-			($selected == 'opprett')? $this->lia('?page=opprett', 'Ny bruker', 'selected') : $this->lia('?page=opprett', 'Ny bruker', '');
+		  echo '<li><a href="http://www.psychaid.no/">Forsiden</a></li>';
+		  echo '<li><a href="http://www.psychaid.no/aksjoner/">Aksjoner</a></li>';
+		  echo '<li><a href="http://www.psychaid.no/delta/">Delta!</a></li>';
+		  echo '<li><a href="http://www.psychaid.no/om-oss/">Om oss</a></li>';
+		  echo '<li class="current_page_item"><a href="http://www.psychaid.no/skap/">Skap</a></li>';
 		} else {
-			$menuitems = array(
-				"user" => array(
-					"level" => 1,
-					"url" => "user",
-					"text" => "Oversikt"
-					),
-				"endre" => array(
-					"level" => 1,
-					"url" => "endre",
-					"text" => "Endre"
-					),
-				"skap" => array(
-					"level" => 1,
-					"url" => "skap",
-					"text" => "Skap"
-					),
-				"tilbakemelding" => array(
-					"level" => 3,
-					"url" => "tilbakemelding",
-					"text" => "Tilbakemeldinger"
-					),
-				"system" => array(
-					"level" => 3,
-					"url" => "system",
-					"text" => "System"
-					),
-				"admin" => array(
-					"level" => 4,
-					"url" => "admin",
-					"text" => "Administrasjon"
-					)
-				);
-			foreach ($menuitems as $item) {
-				if($item['level'] <= $level) {
-					if($item['url'] == $selected) {
-						$this->lia('?p='.$item['url'], $item['text'], 'selected');
-					} else {
-						$this->lia('?p='.$item['url'], $item['text']);
-					}
-				}
-			}
-			$this->lia('logout.php', 'Logg ut', 'logout');
+		  $menuitems = array(
+				     "dash" => array(
+						     "url" => "dashboard",
+						     "text" => "Dashboard"
+						     ),
+				     "skap" => array(
+						     "url" => "skap",
+						     "text" => "Skap"
+						     ),
+				     "eiere" => array(
+						      "url" => "eiere",
+						      "text" => "Eiere"
+						      ),
+				     "semester" => array(
+							 "url" => "system",
+							 "text" => "System"
+							 ),
+				     "admin" => array(
+						      "url" => "admin",
+						      "text" => "Administrasjon"
+						      )
+				     );
+		  foreach ($menuitems as $item) {
+		    if($item['url'] == $selected) {
+		      lia('index.php?p='.$item['url'], $item['text'], 'current_page_item'); // current_page_item = using same stylesheet as www.psychaid.no
+		    } else {
+		      lia('index.php?p='.$item['url'], $item['text']);
+		    }
+		  }
+		  lia('logout.php', 'Logg ut', 'logout');
 		}
 		echo "</ul>";
 	}
+
+// Prints out a <li><a>
+function lia($url, $text, $class = '') {
+  ($class == '')?  $line = '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>' : $line = '<li class="'.$class.'"><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>';
+  echo $line;
+}
 
 ?>
