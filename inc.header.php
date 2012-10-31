@@ -12,9 +12,20 @@ session_start();
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
 else $page = "index";
 
-// check locker lookup
-if((isset($_GET['s']) && $_GET['s']) || $_POST['s']) {
+// Check if DB access is required
+if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || is_logged_in()) {
+  // Initiate DB connection
+  include "includes/classes/class.db.php";
+  $db = new PsyDB();
 
+  // If lookup, prepare results
+  if($_GET['s'] || $_POST['s']) {
+    
+  }
+  // Prepare 
+  if(is_logged_in()) {
+    
+  }
 }
 
 
