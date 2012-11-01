@@ -4,6 +4,8 @@
 	Desc: Prepares page\menus then displays as HTML5
 */
 include_once "config.php";
+include "includes/classes/class.forms.php";
+$forms = new PsyForms();
 
 // startup and check
 session_start();
@@ -17,17 +19,7 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
   // Initiate DB connection
   include "includes/classes/class.db.php";
   $db = new PsyDB();
-
-  // If lookup, prepare results
-  if($_GET['s'] || $_POST['s']) {
-    
-  }
-  // Prepare instances
-  if(is_logged_in()) {
-    
-  }
 }
-
 
 ?><!doctype html>
 <html lang="no">
