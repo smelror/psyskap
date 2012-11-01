@@ -1,7 +1,7 @@
 <?php
 /*
 	Page: inc.header.php
-	Desc: Prepares pages\menus then displays as HTML5
+	Desc: Prepares page\menus then displays as HTML5
 */
 include_once "config.php";
 
@@ -42,13 +42,9 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
 </head>
 <body>
   <div id="wrapper">
-  <div id="menu">
-  <p id="logo"><a href="http://www.psychaid.no/"><img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" /></a></p>
-  <?php menu($page); ?>
-  </div>
-  <div id="content">
-  <div id="pageContent">
-  
-  
-  
-
+  	<div id="menu">
+	  <p id="logo"><a href="http://www.psychaid.no/"><img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" /></a></p>
+	  <?php menu($page); ?>
+	</div>
+	<div id="content">
+  <?php if($page == "index") echo '<div id="pageContent">'; ?>
