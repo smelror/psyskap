@@ -1,3 +1,7 @@
 # .htaccess for psyskap
 
-# need rewrite rule or something
+RewriteEngine on
+
+RewriteRule ^skap/pages/(.*).php?$ skap/index.php?p=$1 [L,NC]
+
+# RewriteRule ^robot/(.*)$ index.php?robot=$1 [L,NC]

@@ -16,7 +16,7 @@ class PsyDB {
   }
 
   public function getCon() {
-    return // TO-BE-ADDED
+    return new PDO('mysql:host=localhost;dbname='.$this->dbname, $this->user, $this->pass);
   }
 
 

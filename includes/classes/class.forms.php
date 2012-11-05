@@ -4,17 +4,41 @@
    Desc: All forms are generated and validated here. Validation requires database connection.
   */
 class PsyForms {
-  public function skap_form($id, $target) {
-    $this->form_open($id, $target);
-    $this->input_text('skapnr', $_POST, 'Skapnummer');
-    $this->input_hidden('s', 1);
-    $this->input_submit('Finn');
-    $this->form_close();
-  }
+	public function findskap($id, $target) {
+	    $this->form_open($id, $target);
+	    $this->input_text('skapnr', $_POST, 'Skapnummer');
+	    $this->input_hidden('s', 1);
+	    $this->input_submit('Finn');
+	    $this->form_close();
+	}
 
-  /*
-   Internal tools
-  */
+
+
+	public function login($errors = array()) {
+		$this->form_open('formLogin', 'login');
+		if($errors) {
+			echo '<ul class="errorBox"><li>';
+			echo implode('</li><li>',$errors);
+			echo '</li></ul>';
+		}
+		$this->input_text('usr', $_POST, "Brukernavn");
+		$this->input_password('pwd', $_POST, "Passord");
+		$this->input_submit('Logg inn');
+		$this->input_hidden('_login_check', 1);
+		$this->form_close();
+	}
+
+	public function validate_login() {
+
+	}
+
+	
+
+
+
+	/*
+	Internal tools
+	*/
 	private function form_open($id, $target) {
 		return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PHP_SELF'].'?p='.$target.'">';
 	}
