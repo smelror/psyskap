@@ -8,7 +8,7 @@
 if($page == "index") {
   echo '</div>'; // pageContent
   echo '<ul id="pageMenu" class="noMargin">';
-  echo '<li class="current_page_item"><a href="http://www.psychaid.no/skap">Skap</a></li>';
+  lia('http://www.psychaid.no/skap/', 'Skap', 'current_page_item')
   echo '</ul>';
   echo '<div id="pageMenuEnd">&nbsp;</div>';
  }

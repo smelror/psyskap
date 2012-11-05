@@ -4,8 +4,6 @@
    Desc: All forms are generated and validated here. Validation requires database connection.
   */
 class PsyForms {
-  
-
   public function skap_form($id, $target) {
     $this->form_open($id, $target);
     $this->input_text('skapnr', $_POST, 'Skapnummer');
@@ -18,8 +16,7 @@ class PsyForms {
    Internal tools
   */
 	private function form_open($id, $target) {
-		$form_open = '<form id="'.$id.'" method="POST" action="'.$_SERVER['PHP_SELF'].'?p='.$target.'">';
-		return print $form_open;
+		return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PHP_SELF'].'?p='.$target.'">';
 	}
 	private function form_close() {
 		return print '</form>';

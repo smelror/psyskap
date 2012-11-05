@@ -24,11 +24,11 @@ function is_logged_in() {
 function menu($loggedin, $selected) {
 		echo '<ul id="nav" class="menu">';
 		if(!$loggedin) {
-		  echo '<li><a href="http://www.psychaid.no/">Forsiden</a></li>';
-		  echo '<li><a href="http://www.psychaid.no/aksjoner/">Aksjoner</a></li>';
-		  echo '<li><a href="http://www.psychaid.no/delta/">Delta!</a></li>';
-		  echo '<li><a href="http://www.psychaid.no/om-oss/">Om oss</a></li>';
-		  echo '<li class="current_page_item"><a href="http://www.psychaid.no/skap/">Skap</a></li>';
+			lia('http://www.psychaid.no/','Forsiden');
+			lia('http://www.psychaid.no/aksjoner/', 'Delta!');
+			lia('http://www.psychaid.no/delta/', 'Delta!');
+			lia('http://www.psychaid.no/om-oss/', 'Om oss');
+			lia('http://www.psychaid.no/skap/', 'Skap', 'current_page_item');
 		} else {
 		  $menuitems = array(
 				     "dash" => array(
