@@ -70,7 +70,7 @@ function lia($url, $text, $class = '') {
   echo $line;
 }
 
-private function validateUser($userid) {
+function validateUser($userid) {
 	session_regenerate_id (); //this is a security measure
     $_SESSION['valid'] = 1;
 	$_SESSION['userid'] = $userid;
