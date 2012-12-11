@@ -5,10 +5,10 @@
    */
 
   // If page:index, create sidebar (pageMenu) 
-if($page == "index") {
+if($page == "finn") {
   echo '</div>'; // pageContent
   echo '<ul id="pageMenu" class="noMargin">';
-  lia('http://www.psychaid.no/skap/', 'Skap', 'current_page_item')
+  lia('http://www.psychaid.no/skap/', 'Skap', 'current_page_item');
   echo '</ul>';
   echo '<div id="pageMenuEnd">&nbsp;</div>';
  }

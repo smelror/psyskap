@@ -7,19 +7,18 @@
      else $lookup = $_POST['s'];
      // validate lookup
      $error = '';
-     if(strl($lookup) <= 5) {
+     if(strl($lookup) <= 5) { // Skap identifiers are max five characters long.
        $skap = $db->getSkap($lookup, is_logged_in());
        if(get_class($skap) == 'Skap') {
-	 
+
        } else {
-	 $error = 'Skapet du s&oslahs;kte etter, '.htmlentities($lookup).', er ikke gyldig.';
+	       $error = 'Skapet du s&oslahs;kte etter, '.htmlentities($lookup).', er ikke gyldig.';
        }
      } else {
        $error = "Skapnummer kan inneholde maks. fem tegn.";
      }
+    if($error) print '<div class="warning">'.$error.'</div>';
    } else {
-     if($error) print '<div class="warning">'.$error.'</div>';
-     $forms->skap_form('finnSkap', $page);
+     $forms->finnSkap('finnSkap', $page);
    }
-
 ?>

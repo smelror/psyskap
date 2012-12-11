@@ -71,7 +71,7 @@ function lia($url, $text, $class = '') {
 }
 
 function validateUser($userid) {
-	session_regenerate_id (); //this is a security measure
+	session_regenerate_id (); //this is an easy security measure
     $_SESSION['valid'] = 1;
 	$_SESSION['userid'] = $userid;
 }

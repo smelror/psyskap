@@ -4,8 +4,9 @@
    Desc: All forms are generated and validated here. Validation requires database connection.
   */
 class PsyForms {
-	public function findskap($id, $target) {
+	public function finnSkap($id, $target) {
 	    $this->form_open($id, $target);
+	 	$this->resetKey('skapnr');
 	    $this->input_text('skapnr', $_POST, 'Skapnummer');
 	    $this->input_hidden('s', 1);
 	    $this->input_submit('Finn');
@@ -21,15 +22,34 @@ class PsyForms {
 			echo implode('</li><li>',$errors);
 			echo '</li></ul>';
 		}
+		$this->resetKey('usr');
 		$this->input_text('usr', $_POST, "Brukernavn");
+		$this->resetKey('pwd');
 		$this->input_password('pwd', $_POST, "Passord");
 		$this->input_submit('Logg inn');
 		$this->input_hidden('_login_check', 1);
 		$this->form_close();
 	}
-
-	public function validate_login() {
-
+	public function validate_login($usr, $pwd, $db) {
+		$errors = array();
+		if($usr && $pwd) {
+			try {
+				$ps = $db->prepare("SELECT password, salt FROM users WHERE username = :user");
+				$ps->execute(array(':user' => $usr));
+				$userData = $ps->fetch(PDO::FETCH_ASSOC);
+			} catch (PDOException $e) {
+				$errors[] = "Validate.Login error: " . $e->getMessage() . "<br/>";
+				die();
+			}
+			$hash = hash('sha256', $userData['salt'] . $pwd);
+			if($hash != $userData['password']) {
+				$errors[] = 'Feil brukernavn eller passord.';
+			}
+		} else {
+			($username == '') ? $errors[] = "Vennligst fyll inn brukernavn." : null;
+			($password == '') ? $errors[] = "Vennligst fyll inn passord.": null;
+		}
+		return $errors;
 	}
 
 	
@@ -69,6 +89,10 @@ class PsyForms {
 		$pwd .= '<input type="password" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'" value="';
 		$pwd .= htmlentities($values[$field_name]) . '" /></p>';
 		return print $pwd;
+	}
+	private function resetKey($key) {
+ 		if(!isset($_POST[$key]))
+ 			$_POST[$key] = '';
 	}
 } // Forms
 ?>

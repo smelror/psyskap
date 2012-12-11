@@ -4,7 +4,7 @@
 	Desc: Prepares page\menus then displays as HTML5
 */
 include_once "config.php";
-include "includes/classes/class.forms.php";
+include_once "includes/classes/class.forms.php";
 $forms = new PsyForms();
 
 // startup and check
@@ -21,6 +21,9 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
   $db = new PsyDB();
 }
 
+// Set title
+$title = 'PsySkap | '.ucfirst($page);
+
 ?><!doctype html>
 <html lang="no">
 <head>
@@ -36,7 +39,7 @@ if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || i
   <div id="wrapper">
   	<div id="menu">
 	  <p id="logo"><a href="http://www.psychaid.no/"><img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" /></a></p>
-	  <?php menu($page); ?>
+	  <?php menu(is_logged_in(), $page); ?> 
 	</div>
 	<div id="content">
-  <?php if($page == "index") echo '<div id="pageContent">'; ?>
+  <?php if($page == "finn") echo '<div id="pageContent">'; ?>
