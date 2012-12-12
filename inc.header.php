@@ -12,6 +12,7 @@ session_start();
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
+elseif(isset($_GET['p']) && ($_GET['p'] == 'login')) $page = "login";
 else $page = "finn";
 
 // Check if DB access is required
