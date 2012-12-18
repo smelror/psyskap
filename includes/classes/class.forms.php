@@ -4,6 +4,7 @@
    Desc: All forms are generated and validated here. Validation requires database connection.
   */
 class PsyForms {
+	
 	public function finnSkap($id, $target) {
 	    $this->form_open($id, $target);
 	 	$this->resetKey('skapnr');
