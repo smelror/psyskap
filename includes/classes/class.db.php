@@ -10,7 +10,7 @@ class PsyDB {
 
   // Sets variables for connection
   function __construct() {
-    $this->dbname = "";
+    $this->dbname = "psyskap2";
     $this->dbuser = "";
     $this->dbpwd = "";
   }
@@ -19,6 +19,17 @@ class PsyDB {
     return new PDO('mysql:host=localhost;dbname='.$this->dbname, $this->user, $this->pass);
   }
 
+  public function logit($message) {
+    if(!$message) { die(); }
+    $db = $this->getCon();
+    try {
+        $ps = $db->prepare("INSERT INTO errorlog (message) VALUES (?)");
+        $ps->execute(array($message));
+    } catch (PDOException $e) {
+        print '<div class="error">Logit error: ' . $e->getMessage() . '<div/>';
+        die();
+    }
+  }
 
   } // PsyDB
 ?>

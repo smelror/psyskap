@@ -32,7 +32,8 @@ $title = 'PsySkap | '.ucfirst($page);
   <meta type="description" content="" />
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" />
-  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/styles.css" />
+  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/style.css" />
+  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />
   <?php if(is_logged_in()) echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />'; ?>
   <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>

@@ -24,12 +24,12 @@ class Skap {
 	public function getPris() { return $this->pris; }
 	public function getEier() { return $this->eier; }
 	public function isAvailable() { return ($this->eier == ''); }
-	public function setOwner($userid, $db) {
+	public function setOwner($eierid, $db) {
 		try {
 			$sql = "UPDATE skap SET eier = :eierid WHERE nr = :skapnr";
 			$q = $db->prepare($sql);
 			$q->execute(array(
-				':eierid' => $userid,
+				':eierid' => $eierid,
 				':skapnr' => $this->getNr()
 				));
 			return true;

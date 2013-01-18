@@ -1,2 +1,7 @@
 # Hopefully this'll remove temp files
 *.php~
+# All non-essential files for non-PsychAid users
+*.csv
+*.gif
+*.png
+*.jpg
