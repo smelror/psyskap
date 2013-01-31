@@ -52,7 +52,23 @@ class PsyForms {
 		}
 		return $errors;
 	}
-
+	public function addMod($errors = array(), $id, $target) {
+		$this->form_open($id, $target);
+		if($errors) {
+			echo '<ul class="errorBox"><li>';
+			echo implode('</li><li>',$errors);
+			echo '</li></ul>';
+		}
+		$this->resetKey('mod');
+		$this->input_text('mod', $_POST, 'Brukernavn');
+		$this->resetKey('pwd');
+		$this->input_password('pwd', $_POST, 'Passord');
+		$this->resetKey('epost');
+		$this->input_text('epost', $_POST, 'E-post');
+		$this->input_hidden('addModerator', 1);
+		$this->input_submit('Opprett moderator');
+		$this->form_close();
+	}
 	
 
 
@@ -94,6 +110,16 @@ class PsyForms {
 	private function resetKey($key) {
  		if(!isset($_POST[$key]))
  			$_POST[$key] = '';
+	}
+	private function validEmail($email) {
+	  //filter_var() sanitizes the e-mail
+	  //address using FILTER_SANITIZE_EMAIL
+	  $email = filter_var($email ,  FILTER_SANITIZE_EMAIL);
+
+	  //filter_var() validates the e-mail
+	  //address using FILTER_VALIDATE_EMAIL
+	  if(filter_var($email ,  FILTER_VALIDATE_EMAIL)) { return true; }
+	  else { return false; }
 	}
 } // Forms
 ?>

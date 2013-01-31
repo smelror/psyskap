@@ -3,21 +3,24 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 0.5
+	v 0.9
 =================
 */
+// Maximum execution time of 30 seconds exceeded - need to test more
 if(!isset($_GET['step'])) { header('Location: '. $_SERVER['PHP_SELF'] .'?step=1'); }
 
 include_once 'includes/classes/class.db.php';
 include_once 'includes/classes/class.forms.php';
+include 'config.php';
+
 $dbs = new PsyDB();
+$form = new PsyForms();
 $db = $dbs->getCon();
 
 $step = $_GET['step'];
-
 if($step == 1) {
-
-	print "Oppretter database-tabeller: \n";
+	print "<strong>STEG 1</strong>".PHP_EOL;
+	print "Oppretter database-tabeller:".PHP_EOL;
 
 	// Create 'eiere' - should work
 	echo "Opretter eiere...";
@@ -32,7 +35,7 @@ if($step == 1) {
 			skap varchar(5) NOT NULL,
 			PRIMARY KEY(id)
 		);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 	// Create 'forslag' - should work
 	echo "Oppretter forslag...";
@@ -41,7 +44,7 @@ if($step == 1) {
 			navn varchar(30) NOT NULL,
 			skap varchar(5) NOT NULL
 		);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 	// Create 'skap' - should work
 	echo "Oppretter skap...";
@@ -54,7 +57,7 @@ if($step == 1) {
 			eier int(10) NOT NULL,
 			PRIMARY KEY(skapnr)
 		);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 	// Create 'errorlog' - should work
 	echo "Oppretter errorlog...";
@@ -65,7 +68,7 @@ if($step == 1) {
 			dato TIMESTAMP(8),
 			PRIMARY KEY(id)
 		);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 	// Create 'users' - should work
 	echo "Oppretter users...";
@@ -79,7 +82,7 @@ if($step == 1) {
 			created TIMESTAMP DEFAULT NOW(),
 			PRIMARY KEY(id)
 			);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 	// Create 'semester' - should work
 	echo "Oppretter semester...";
@@ -91,12 +94,13 @@ if($step == 1) {
 			activated_by varchar(30) NOT NULL,
 			PRIMARY KEY(id)
 			);");
-	echo "OK! \n";
+	echo "OK!".PHP_EOL;
 
 
-	print "Alle tabeller opprettet. \n";
+	print "Alle tabeller opprettet.".PHP_EOL;
 
 	// Populate 'skap'
+	$skapfile = "skap.csv";
 	if (($handle = fopen($skapfile, "r")) !== FALSE) {
 	    while (($data = fgetcsv($handle, 1000, ":")) !== FALSE) {
 
@@ -117,35 +121,52 @@ if($step == 1) {
 	    }
 	    fclose($handle);
 	} 
-	print "All skap registrert. \n";
-
-
-
-
+	print "All skap registrert.".PHP_EOL;
+print PHP_EOL.PHP_EOL;
+print "Registrer moderator:".PHP_EOL;
+$form->addMod(null, 'addModForm', $_SERVER['PHP_SELF'] .'?step=2'); // Posts to install.php?step=2
 $db = null;
 $dbs = null;
 } // step 1
 
 
 if($step == 2) {
+	print "<strong>STEG 2</strong>".PHP_EOL;
+	
+	// Validate addMod-form
+	if($errors = $form->validateAddMod()) {
+		print "<strong>Det oppstod feil under moderator-oppretting:</strong>".PHP_EOL;
+		$form->addMod($errors, 'addModForm', $_SERVER['PHP_SELF'] .'?step=2');
+	} else {
+		// Valid mod, add mod
+		print "Registrerer moderator for: ".$_POST['epost'];
+		$db->addMod($_POST['mod'], $_POST['pwd'], $_POST['epost']);
+		print "... OK!".PHP_EOL;
 
-
-	// Registering admin
-	$form = new PsyForms();
-	$form->registerUser('PsychAid', 'Administrator', 'admin@psychaid.no', 'cutTheLock', '00000000');
-	$q = $db->prepare("UPDATE brukere SET type=:type WHERE epost = :epost");
-	$q->execute(array(
-		'type' => 4,
-		'epost' => 'admin@psychaid.no'
-		));
-	$form = null;
-
-	$dbs->showAllUsers();
-
+		// Send email to new moderator
+		$message = "
+			Hei!\n\n
+			Din epostadresse er registrert som moderator i PsySkap (http://www.psychaid.no/skap), og kan logge inn via\n
+			http://www.psychaid.no/skap/?p=login \n\n
+			usr: ".$_POST['mod']." \n
+			pwd: ".$_POST['pwd']." \n\n
+			Vi anbefaler at du endrer passord etter å ha logget inn.";
+		$maildata = array(
+			'to_email' => $_POST['epost'],
+			'to_name' => $_POST['mod'],
+			'from_email' => 'skap@psychaid.no',
+			'from_name' => 'PsySkap',
+			'subject' => 'PsySkap: Moderator opprettet',
+			'message' => $message
+			);
+		if(mail_send($maildata)) {
+			print "E-post med brukernavn\passord er sendt.".PHP_EOL;
+		}
+		print "Innstallasjon fullført uten problemer.".PHP_EOL.PHP_EOL;
+		echo 'Gå til <a href="?p=finn">PsySkap-forside</a> eller <a href="?p=login">logg inn</a>.';
+	}
 	$db = null;
 	$dbs = null;
-	print "Admin registered. \n";
-	print "Everything done; go ahead, have a nice day!";
-
+	$form = null;
 } // step 2
 ?>
