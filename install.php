@@ -3,7 +3,7 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 0.9
+	v 0.9b
 =================
 */
 // Maximum execution time of 30 seconds exceeded - need to test more
@@ -99,29 +99,37 @@ if($step == 1) {
 
 	print "Alle tabeller opprettet.".PHP_EOL;
 
-	// Populate 'skap'
+	// read 'skap' file, populate array
+	$all_skap = array();
 	$skapfile = "skap.csv";
 	if (($handle = fopen($skapfile, "r")) !== FALSE) {
 	    while (($data = fgetcsv($handle, 1000, ":")) !== FALSE) {
-
-	    	$ins_skap = $data[0];
-	    	$ins_rom = $data[1];
-	    	$ins_bygg = $data[2];
-	    	$ins_pris = $data[3];
-
-			$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg, pris) VALUES (:skap, :rom, :bygg, :pris)");
-			$q->execute(array(
-				'skap' => $ins_skap,
-				'rom' => $ins_rom,
-				'bygg' => $ins_bygg,
-				'pris' => $ins_pris
-				));
-			//print '> '.$ins_skap.' '.$ins_rom.' '.$ins_bygg.' '.$ins_pris.' inserted.';
-
+		// could work - if not use http://www.php.net/manual/en/function.array-push.php
+		$all_skap .= array(
+			'skapnr' => $data[0],
+			'rom' => $data[1],
+			'bygg' => $data[2],
+			'pris' => $data[3]		
+		);		//print '> '.$ins_skap.' '.$ins_rom.' '.$ins_bygg.' '.$ins_pris.' inserted.';
 	    }
 	    fclose($handle);
-	} 
+	} else {
+		die("Could not find or read skap.csv file. The installation has stopped.");
+	}
+	// check if table is empty
+	$q = $db->prepare('SELECT FROM skap');
+	$q->execute();
+	$count = $q->rowCount();
+	// if table is empty, populate it
+	if($count == 0) {
+		// Insert skap into db - should work (better?)
+		foreach ($all_skap as $skap) {
+			$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg, pris) VALUES (:skapnr, :rom, :bygg, :pris)");
+			$q->execute($skap);
+		}
+	}	
 	print "All skap registrert.".PHP_EOL;
+
 print PHP_EOL.PHP_EOL;
 print "Registrer moderator:".PHP_EOL;
 $form->addMod(null, 'addModForm', $_SERVER['PHP_SELF'] .'?step=2'); // Posts to install.php?step=2

@@ -9,6 +9,8 @@ if(isset($_POST['_login_check']) && $_POST['_login_check']) {
 		$forms->login($form_errors);
 	} else {
 		validateUser($_POST['usr']);
+		// print menu here
+
 	}
 } else {
 ?>
