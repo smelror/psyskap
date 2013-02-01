@@ -13,7 +13,7 @@ session_start();
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
 elseif(isset($_GET['p']) && ($_GET['p'] == 'login')) $page = "login";
-else $page = "finn";
+else $page = "velkommen";
 
 // Check if DB access is required
 if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || is_logged_in()) {
@@ -33,7 +33,6 @@ $title = 'PsySkap | '.ucfirst($page);
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" />
   <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/style.css" />
-  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />
   <?php if(is_logged_in()) echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />'; ?>
   <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
@@ -44,4 +43,4 @@ $title = 'PsySkap | '.ucfirst($page);
 	  <?php menu(is_logged_in(), $page); ?> 
 	</div>
 	<div id="content">
-  <?php if($page == "finn") echo '<div id="pageContent">'; ?>
+  <?php if($page == "velkommen"|"finn"|"register") echo '<div id="pageContent">'; ?>
