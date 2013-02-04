@@ -20,7 +20,8 @@ if(isset($_POST['_regskap']) && $_POST['_regskap']) {
     }
   }
  } else {
-  echo '<p>Fyll ut følgende skjema og send det inn.</p>';
-  $form->registerForm();
+  echo '<p>Fyll ut f&oslash;lgende skjema og send det inn.</p>';
+  //$forms->registerForm();
+  }
 ?>
-<p>Om du behøver assistanse kan du <a href="http://www.psychaid.no/kontakt/">ta kontakt med oss</a>.<p>
+<p>Om du beh&oslash;ver assistanse kan du <a href="http://www.psychaid.no/kontakt/">ta kontakt med oss</a>.<p>

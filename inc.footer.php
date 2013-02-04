@@ -5,10 +5,26 @@
    */
 
   // If page:index, create sidebar (pageMenu) 
-if($page == "finn") {
+if($page == ("finn" || "velkommen" || "register")) {
   echo '</div>'; // pageContent
   echo '<ul id="pageMenu" class="noMargin">';
-  lia('http://www.psychaid.no/skap/', 'Skap', 'current_page_item');
+  $vel = ''; $fin = ''; $reg = '';
+  switch ($page) {
+    case 'finn':
+      $fin = 'current_page_item';
+      break;
+    case 'velkommen':
+      $vel = 'current_page_item';
+      break;
+    case 'register':
+      $reg = 'current_page_item';
+      break;
+    default:
+      break;
+  }
+  lia('?p=velkommen', 'Velkommen', $vel);
+  lia('?p=finn', 'Finn', $fin);
+  lia('?p=register', 'Registrer', $reg);
   echo '</ul>';
   echo '<div id="pageMenuEnd">&nbsp;</div>';
  }

@@ -14,8 +14,6 @@ class PsyForms {
 	    $this->form_close();
 	}
 
-
-
 	public function login($errors = array()) {
 		$this->form_open('formLogin', 'login');
 		if($errors) {
@@ -69,8 +67,17 @@ class PsyForms {
 		$this->input_submit('Opprett moderator');
 		$this->form_close();
 	}
-	
-
+	public function validate_addMod($mod, $pwd, $epost, $db) {
+		$errors = array();
+		if(!isset($mod, $pwd, $epost, $db)) { $errors[] = "Alle felt m&aring; fylles ut."; }
+		if(!$this->validEmail($epost)) $errors[] = "Ugylding epostadresse.";
+		if(strlen($pwd) < 5) $errors[] = "Passord m&aring; v&aelig;re lengre enn fem karakterer.";
+		$q = $db->prepare("SELECT FROM users WHERE username = :user");
+		$q->execute(array('user' => $mod));
+		$count = $q->rowCount();
+		if($count) $errors[] = "Brukernavnet er allerede registrert.";
+		return $errors;
+	}
 
 
 	/*

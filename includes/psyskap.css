@@ -1,0 +1,27 @@
+/*
+	Name: PsySkap CSS
+	URI: psychaid.no/skap/
+	Ver.: 0.1
+	Author: Vegard Smelror Åmdal
+*/
+
+.actionButtonList { list-style-type: none; padding: 0; }
+	.actionButtonList li { display: inline-block; vertical-align: middle; }
+	.actionButtonList li a, .actionButtonList li a:visited {
+		text-decoration: none;
+		background-color: #f5f5f5;
+		border-radius: 2px;
+		box-shadow: 0 1px 3px #a1a1a1;
+		padding: 1em;
+		color: #333 !important;
+		display: block;
+		width: 20em;
+		margin-right: 1em;
+		font-size: 1.1em;
+		line-height: 1.5;
+		position: relative;
+	}
+	.actionButtonList li a span { display: block; font-size: .8em; font-family: Arial, sans-serif; }
+	.actionButtonList li a:hover { background-color:#eee; }
+	.actionButtonList li a:active { box-shadow:inset 0 1px 2px #666; top: 2px;}
+

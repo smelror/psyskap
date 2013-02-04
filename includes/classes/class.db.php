@@ -25,15 +25,14 @@ class PsyDB {
     try {
       // salt shake
       $salt = $this->createSalt();
-      $hash = hash('sha256', $salt . $password);
+      $hash = hash('sha256', $salt . $pwd);
       $q = $db->prepare("INSERT INTO users (username, password, salt, epost) VALUES (:username, :password, :salt, :epost)");
       $q->execute(array(
           'username' => $usr,
-          'password' => $pwd,
+          'password' => $hash,
           'salt' => $salt,
           'epost' => $epost
         ));
-
     } catch (PDOException $e) {
       $this->logit('db.addMod failed: '. $e-getMessage() .'');
     }

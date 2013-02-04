@@ -3,11 +3,11 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 0.9b
+	v 0.98
 =================
 */
 // Maximum execution time of 30 seconds exceeded - need to test more
-if(!isset($_GET['step'])) { header('Location: '. $_SERVER['PHP_SELF'] .'?step=1'); }
+// if(!isset($_GET['step'])) { header('Location: '. $_SERVER['PHP_SELF'] .'?step=1'); }
 
 include_once 'includes/classes/class.db.php';
 include_once 'includes/classes/class.forms.php';
@@ -17,13 +17,12 @@ $dbs = new PsyDB();
 $form = new PsyForms();
 $db = $dbs->getCon();
 
-$step = $_GET['step'];
-if($step == 1) {
-	print "<strong>STEG 1</strong>".PHP_EOL;
-	print "Oppretter database-tabeller:".PHP_EOL;
+if(!isset($_POST['addModerator'])) {
+	print "<p><strong>STEG 1</strong></p>";
+	print "<p>Oppretter database-tabeller:</p>";
 
-	// Create 'eiere' - should work
-	echo "Opretter eiere...";
+	// Create 'eiere' - works!
+	echo "<p>Opretter eiere...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS eiere (
 			id	int	NOT NULL AUTO_INCREMENT,
@@ -35,19 +34,19 @@ if($step == 1) {
 			skap varchar(5) NOT NULL,
 			PRIMARY KEY(id)
 		);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
-	// Create 'forslag' - should work
-	echo "Oppretter forslag...";
+	// Create 'forslag' - works!
+	echo "<p>Oppretter forslag...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS forslag (
 			navn varchar(30) NOT NULL,
 			skap varchar(5) NOT NULL
 		);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
-	// Create 'skap' - should work
-	echo "Oppretter skap...";
+	// Create 'skap' - works!
+	echo "<p>Oppretter skap...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS skap (
 			skapnr varchar(5) NOT NULL,
@@ -57,10 +56,10 @@ if($step == 1) {
 			eier int(10) NOT NULL,
 			PRIMARY KEY(skapnr)
 		);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
-	// Create 'errorlog' - should work
-	echo "Oppretter errorlog...";
+	// Create 'errorlog' - works!
+	echo "<p>Oppretter errorlog...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS errorlog (
 			id 	int(4)	NOT NULL AUTO_INCREMENT,
@@ -68,10 +67,10 @@ if($step == 1) {
 			dato TIMESTAMP(8),
 			PRIMARY KEY(id)
 		);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
-	// Create 'users' - should work
-	echo "Oppretter users...";
+	// Create 'users' - works!
+	echo "<p>Oppretter users...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS users (
 			id int NOT NULL AUTO_INCREMENT,
@@ -82,10 +81,10 @@ if($step == 1) {
 			created TIMESTAMP DEFAULT NOW(),
 			PRIMARY KEY(id)
 			);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
-	// Create 'semester' - should work
-	echo "Oppretter semester...";
+	// Create 'semester' - works!
+	echo "<p>Oppretter semester...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS semester (
 			id varchar(3) NOT NULL,
@@ -94,10 +93,10 @@ if($step == 1) {
 			activated_by varchar(30) NOT NULL,
 			PRIMARY KEY(id)
 			);");
-	echo "OK!".PHP_EOL;
+	echo "OK!</p>";
 
 
-	print "Alle tabeller opprettet.".PHP_EOL;
+	print "<p>Alle tabeller opprettet.</p>";
 
 	// read 'skap' file, populate array
 	$all_skap = array();
@@ -105,51 +104,56 @@ if($step == 1) {
 	if (($handle = fopen($skapfile, "r")) !== FALSE) {
 	    while (($data = fgetcsv($handle, 1000, ":")) !== FALSE) {
 		// could work - if not use http://www.php.net/manual/en/function.array-push.php
-		$all_skap .= array(
+		$skapadd = array(
 			'skapnr' => $data[0],
 			'rom' => $data[1],
 			'bygg' => $data[2],
 			'pris' => $data[3]		
-		);		//print '> '.$ins_skap.' '.$ins_rom.' '.$ins_bygg.' '.$ins_pris.' inserted.';
+		);
+		array_push($all_skap, $skapadd);
+		//print '> '.$ins_skap.' '.$ins_rom.' '.$ins_bygg.' '.$ins_pris.' inserted.';
 	    }
 	    fclose($handle);
 	} else {
 		die("Could not find or read skap.csv file. The installation has stopped.");
 	}
+
+	// print_r($all_skap);
 	// check if table is empty
 	$q = $db->prepare('SELECT FROM skap');
 	$q->execute();
 	$count = $q->rowCount();
+	$skapcount = 0;
 	// if table is empty, populate it
 	if($count == 0) {
 		// Insert skap into db - should work (better?)
+		$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg, pris) VALUES (:skapnr, :rom, :bygg, :pris)");
 		foreach ($all_skap as $skap) {
-			$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg, pris) VALUES (:skapnr, :rom, :bygg, :pris)");
 			$q->execute($skap);
+			$skapcount++;
 		}
-	}	
-	print "All skap registrert.".PHP_EOL;
-
-print PHP_EOL.PHP_EOL;
-print "Registrer moderator:".PHP_EOL;
-$form->addMod(null, 'addModForm', $_SERVER['PHP_SELF'] .'?step=2'); // Posts to install.php?step=2
+	}
+	if($skapcount == 705) print "<p>All skap registrert.</p>";
+	else print '<p class="warning">Ikke alle skap ble registrert.</p>';
+print "<p>Registrer moderator:</p>";
+$form->addMod(null, 'addModForm', 'install'); // Posts to install.php?step=2
 $db = null;
 $dbs = null;
 } // step 1
 
 
-if($step == 2) {
-	print "<strong>STEG 2</strong>".PHP_EOL;
+if(isset($_POST['addModerator']) && $_POST['addModerator']) {
+	print "<p><strong>STEG 2</strong></p>";
 	
 	// Validate addMod-form
-	if($errors = $form->validateAddMod()) {
-		print "<strong>Det oppstod feil under moderator-oppretting:</strong>".PHP_EOL;
-		$form->addMod($errors, 'addModForm', $_SERVER['PHP_SELF'] .'?step=2');
+	if($errors = $form->validate_addMod($_POST['mod'], $_POST['pwd'], $_POST['epost'], $db)) {
+		print "<p><strong>Det oppstod feil under moderator-oppretting:</strong></p>";
+		$form->addMod($errors, 'addModForm', 'install');
 	} else {
 		// Valid mod, add mod
-		print "Registrerer moderator for: ".$_POST['epost'];
-		$db->addMod($_POST['mod'], $_POST['pwd'], $_POST['epost']);
-		print "... OK!".PHP_EOL;
+		print "<p>Registrerer moderator for: ".$_POST['epost'];
+		$dbs->addMod($_POST['mod'], $_POST['pwd'], $_POST['epost']);
+		print "... OK!</p>";
 
 		// Send email to new moderator
 		$message = "
@@ -168,10 +172,10 @@ if($step == 2) {
 			'message' => $message
 			);
 		if(mail_send($maildata)) {
-			print "E-post med brukernavn\passord er sendt.".PHP_EOL;
+			print "<p>E-post med brukernavn\passord er sendt.</p>";
 		}
-		print "Innstallasjon fullført uten problemer.".PHP_EOL.PHP_EOL;
-		echo 'Gå til <a href="?p=finn">PsySkap-forside</a> eller <a href="?p=login">logg inn</a>.';
+		print "<p>Innstallasjon fullf&oslash;rt uten problemer.</p>";
+		echo '<p>G&aring; til <a href="index.php?p=velkommen">PsySkap-forsiden</a> eller <a href="index.php?p=login">logg inn</a>.</p>';
 	}
 	$db = null;
 	$dbs = null;
