@@ -16,7 +16,7 @@ class PsyDB {
   }
 
   public function getCon() {
-    return new PDO('mysql:host=localhost;dbname='.$this->dbname, $this->dbuser, $this->dbpwd);
+    return new PDO('mysql:host=localhost;dbname='.$this->dbname, $this->dbuser, $this->dbpwd, array(PDO::ATTR_PERSISTENT => true)); // Always persistent => utilizes same connection for improved performance.
   }
 
 

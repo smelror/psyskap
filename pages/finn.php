@@ -10,7 +10,7 @@
      if(strl($lookup) <= 5) { // Skap identifiers are max five characters long.
        $skap = $db->getSkap($lookup, is_logged_in());
        if(get_class($skap) == 'Skap') {
-
+	 // Display skap here.
        } else {
 	       $error = 'Skapet du s&oslahs;kte etter, '.htmlentities($lookup).', er ikke gyldig.';
        }
