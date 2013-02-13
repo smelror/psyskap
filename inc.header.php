@@ -3,25 +3,22 @@
 	Page: inc.header.php
 	Desc: Prepares page\menus then displays as HTML5
 */
-include_once "config.php";
-include_once "includes/classes/class.forms.php";
 if(!isset($_GET['p'])) header("Location: ".$SERVER['PHP_SELF']."?p=velkommen");
-$forms = new PsyForms();
-
 // startup and check
 session_start();
+
+include_once "config.php";
+include_once "includes/classes/class.forms.php";
+include_once "includes/classes/class.skap.php";
+include "includes/classes/class.db.php";
+
+$forms = new PsyForms();
+$db = new PsyDB();
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
 elseif(isset($_GET['p']) && ($_GET['p'] == 'login')) $page = "login";
 else $page = $_GET['p'];
-
-// Check if DB access is required
-if((isset($_GET['s']) && $_GET['s']) || (isset($_POST['s']) && $_POST['s']) || is_logged_in()) {
-  // Initiate DB connection
-  include "includes/classes/class.db.php";
-  $db = new PsyDB();
-}
 
 // Set title
 $title = 'PsySkap | '.ucfirst($page);
@@ -31,10 +28,11 @@ $title = 'PsySkap | '.ucfirst($page);
 <head>
   <title><?php echo $title; ?></title>
   <meta type="description" content="" />
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
   <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/style.css" />
-  <?php echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css" />'; ?>
+  <?php echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css">'; ?>
   <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
 <body>

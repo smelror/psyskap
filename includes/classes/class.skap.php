@@ -11,7 +11,7 @@ class Skap {
   protected $eier;
   
   function __construct($d) {
-    $this->nr = $d['nr'];
+    $this->nr = $d['skapnr'];
     $this->rom = $d['rom'];
     $this->bygg = $d['bygg'];
     $this->pris = $d['pris'];
@@ -19,7 +19,7 @@ class Skap {
     else $this->eier = '';
   }
   public function getNr() { return $this->nr; }
-  public function getRom() { return $this->romnr; }
+  public function getRom() { return $this->rom; }
   public function getBygg() { return $this->bygg; }
   public function getPris() { return $this->pris; }
   public function getEier() { return $this->eier; }

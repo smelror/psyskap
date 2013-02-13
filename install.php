@@ -3,7 +3,7 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 0.98
+	v 1.0.0
 =================
 */
 // Maximum execution time of 30 seconds exceeded - need to test more
@@ -41,7 +41,8 @@ if(!isset($_POST['addModerator'])) {
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS forslag (
 			navn varchar(30) NOT NULL,
-			skap varchar(5) NOT NULL
+			skap varchar(5) NOT NULL,
+			PRIMARY KEY(navn)
 		);");
 	echo "OK!</p>";
 
@@ -90,7 +91,7 @@ if(!isset($_POST['addModerator'])) {
 			id varchar(3) NOT NULL,
 			antall_eiere int(4),
 			current int(1) NOT NULL DEFAULT '0',
-			activated_by varchar(30) NOT NULL,
+			activated_by varchar(30) NULL,
 			PRIMARY KEY(id)
 			);");
 	echo "OK!</p>";
@@ -135,6 +136,29 @@ if(!isset($_POST['addModerator'])) {
 	}
 	if($skapcount == 705) print "<p>All skap registrert.</p>";
 	else print '<p class="warning">Ikke alle skap ble registrert.</p>';
+
+	// Legger til semestre og setter current == nåværende semester
+	echo '<p>Legger til semestre i database...';
+	$semestre = array();
+	$y = date('y');
+	for ($x = 0; $x < 3; $x++) {
+		$semestre[] = "H".($y+$x);
+		$semestre[] = "V".($y+$x);
+	}
+	$q = $db->prepare("INSERT INTO semester (id, antall_eiere, current) VALUES (:sem, 0, 0)");
+	foreach ($semestre as $sem) {
+		$q->execute(array('sem' => $sem));
+	}
+	echo 'OK!</p>';
+	$cur = date('y');
+	if (date('n') < 6) $cur = "V".$cur;
+	else $cur = "H".$cur;
+	echo '<p>Setter '.$cur.' som aktiv semester...';
+	$q = $db->prepare("UPDATE semester SET current = 1 WHERE id = ?");
+	$q->execute(array($cur));
+	echo 'OK!</p>';
+
+
 print "<p>Registrer moderator:</p>";
 $form->addMod(null, 'addModForm', 'install'); // Posts to install.php?step=2
 $db = null;

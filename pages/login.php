@@ -10,7 +10,7 @@ if(isset($_POST['_login_check']) && $_POST['_login_check']) {
 	} else {
 		validateUser($_POST['usr']);
 		// print menu here
-
+		echo 'Du er logget inn!';
 	}
 } else {
 ?>

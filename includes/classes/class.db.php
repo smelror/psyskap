@@ -19,7 +19,6 @@ class PsyDB {
     return new PDO('mysql:host=localhost;dbname='.$this->dbname, $this->dbuser, $this->dbpwd, array(PDO::ATTR_PERSISTENT => true)); // Always persistent => utilizes same connection for improved performance.
   }
 
-
   public function addMod($usr, $pwd, $epost) {
     $db = $this->getCon();
     try {
@@ -36,6 +35,15 @@ class PsyDB {
     } catch (PDOException $e) {
       $this->logit('db.addMod failed: '. $e-getMessage() .'');
     }
+  }
+
+  public function getAllSkap() {
+      $allSkap = array();
+      $c = $this->getCon();
+      $q = $c->prepare("SELECT * FROM skap ORDER BY skapnr ASC");
+      $q->execute();
+      $allSkap = $q->fetchAll();
+      return $allSkap;
   }
 
   public function logit($message) {

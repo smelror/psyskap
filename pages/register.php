@@ -6,13 +6,13 @@
 ?>
 <h1>Registrer ditt eierskap</h1>
 <?php
-if(isset($_POST['_regskap']) && $_POST['_regskap']) {
-  if($errors = $form->validate_regForm($_POST['uionavn'], $_POST['skapnr'])) {
+if(isset($_POST['skap']) && $_POST['skap']) {
+  if($errors = $forms->valdiate_register($_POST['eier'], $_POST['skap'])) {
     echo '<p>Det oppstod feil under registrering:</p>';
-    $form->regForm($errors);
+    $forms->register('regsugg', $page, $db, $errors);
   } else {
     // Valid reg
-    if($db->addSuggestion($_POST['uionavn'], $_POST['skapnr'])) {
+    if($db->addSuggestion($_POST['eier'], $_POST['skap'])) {
       echo '<p class="success">Registreringen var vellykket! Tusen takk for registreringen.</p>';
       // Add print-format?
     } else {
@@ -21,7 +21,7 @@ if(isset($_POST['_regskap']) && $_POST['_regskap']) {
   }
  } else {
   echo '<p>Fyll ut f&oslash;lgende skjema og send det inn.</p>';
-  //$forms->registerForm();
+  $forms->register('regsugg', $page, $db);
   }
 ?>
 <p>Om du beh&oslash;ver assistanse kan du <a href="http://www.psychaid.no/kontakt/">ta kontakt med oss</a>.<p>

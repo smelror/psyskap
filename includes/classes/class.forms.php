@@ -33,7 +33,8 @@ class PsyForms {
 		$errors = array();
 		if($usr && $pwd) {
 			try {
-				$ps = $db->prepare("SELECT password, salt FROM users WHERE username = :user");
+				$con = $db->getCon();
+				$ps = $con->prepare("SELECT password, salt FROM users WHERE username = :user");
 				$ps->execute(array(':user' => $usr));
 				$userData = $ps->fetch(PDO::FETCH_ASSOC);
 			} catch (PDOException $e) {
@@ -79,6 +80,145 @@ class PsyForms {
 		return $errors;
 	}
 
+	public function register($id, $target, $db, $errors = array()) {
+		$this->form_open($id, $target);
+		if($errors) {
+			echo '<ul class="errorBox"><li>';
+			echo implode('</li><li>',$errors);
+			echo '</li></ul>';
+		}
+		$this->resetKey('eier');
+		$this->input_text('eier', $_POST, 'UiO-brukernavn');
+		$this->skapTree($db);
+		$this->resetKey('skap');
+		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
+		$this->resetKey('selSkap');
+		$this->input_text("selSkap", $_POST, 'Valgt skap');
+		$this->input_submit('Registrer');
+		$this->form_close();
+	}
+
+	public function valdiate_register($eier, $skapnr) {
+		$errors = array();
+		if(!isset($eier)) $errors[] = "UiO-brukernavn m&aring; fylles ut.";
+		if(!isset($skapnr)) $errors[] = "Skapnummer m&aring; velges.";
+		if($this->validEmail($eier)) $errors[] = "Kun UiO-brukernavn skal fylles ut, ikke @<uio-adresse>.";
+		return $errors;
+	}
+
+	private function skapTree($db) {
+		$alleSkap = $db->getAllSkap();
+		$skap_nybygg = array();
+		$skap_gamleb = array();
+		foreach ($alleSkap as $s) {
+			$tempSkap = new Skap($s);
+			if($s['bygg'] == 'Nybygg') $skap_nybygg[] = $tempSkap;
+			else $skap_gamleb[] = $tempSkap;
+		}
+		// Set up building tabs
+
+		echo '<div class="building-container">';
+		echo '<p class="building-tabs-list">';
+			echo '<span class="building-tab selected-tab" id="tab-ny">Nybygget</span>';
+			echo '<span class="building-tab" id="tab-gamle">Gamlebygget</span>';
+		echo '</p>'; // .building-tabs-list
+		
+		// Nybygget
+		$etg_1 = array();
+		$etg_2 = array();
+		foreach ($skap_nybygg as $s) {
+			if($s->getRom() == "1. etg") $etg_1[] = $s;
+			else $etg_2[] = $s;
+		}
+		echo '<div id="nybygget">';
+		echo '<div class="etasje clearfix"><p class="etg-button">1. Etasje</p>';
+		echo '<ul class="skapListe clearfix" id="etg1" style="display: none">';
+		foreach ($etg_1 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '<div class="etasje clearfix"><p class="etg-button">2. Etasje</p>';
+		echo '<ul class="skapListe clearfix" id="etg2" style="display: none">';
+		foreach ($etg_2 as $s) {
+			echo '<li class="skap" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '</div>'; // #nybygget
+
+		// Gamlebygget
+		$V01_07	= array();
+		$V01_01 = array();
+		$N02_01 = array();
+		$V01_06 = array();
+		$V1U_18 = array();
+		foreach ($skap_gamleb as $s) {
+			if($s->getRom() == "V01-07") $V01_07[] = $s;
+			elseif($s->getRom() == "V01-01") $V01_01[] = $s;
+			elseif($s->getRom() == "N02-01") $N02_01[] = $s;
+			elseif($s->getRom() == "V01-06") $V01_06[] = $s;
+			else $V1U_18[] = $s;
+		}
+		echo '<div id="gamlebygget" style="display: none">';
+		echo '<div class="etasje clearfix"><p class="etg-button">V01-07</p>';
+		echo '<ul class="skapListe clearfix" id="V01-07" style="display: none">';
+		foreach ($V01_07 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '<div class="etasje clearfix"><p class="etg-button">V01-01</p>';
+		echo '<ul class="skapListe clearfix" id="V01-07" style="display: none">';
+		foreach ($V01_01 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '<div class="etasje clearfix"><p class="etg-button">N02-01</p>';
+		echo '<ul class="skapListe clearfix" id="V01-07" style="display: none">';
+		foreach ($N02_01 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '<div class="etasje clearfix"><p class="etg-button">V01-06</p>';
+		echo '<ul class="skapListe clearfix" id="V01-07" style="display: none">';
+		foreach ($V01_06 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '<div class="etasje clearfix"><p class="etg-button">V1U-18</p>';
+		echo '<ul class="skapListe clearfix" id="V01-07" style="display: none">';
+		foreach ($V1U_18 as $s) {
+			echo '<li class="skap transBackground" id="'.$s->getNr().'">'.$s->getNr().'</li>';
+		}
+		echo '</ul></div>';
+		echo '</div>'; // #gamlebygget
+		echo '<div class="clearer clearfix"></div>';
+		echo '</div>'; // .building-container
+		?>
+		<script type="text/javascript">
+			$("span#tab-ny").click(function () {
+				$(this).addClass("selected-tab");
+				$("span#tab-gamle").removeClass("selected-tab");
+				$("div#gamlebygget").hide("slow");
+				$("div#nybygget").show("slow");
+			});
+			$("span#tab-gamle").click(function () {
+				$(this).addClass("selected-tab");
+				$("span#tab-ny").removeClass("selected-tab");
+				$("div#nybygget").hide("slow");
+				$("div#gamlebygget").show("slow");
+			});
+			$("p.etg-button").click(function () {
+				$(this).parent().children("ul").toggle("slow");
+			});
+			$("li.skap").click(function () {
+				$('#skap').attr('value', $(this).attr("id"));
+				$('#selSkap').attr('value', $(this).attr("id"));
+      			// $(this).addClass("skap-selected"); // just for testing
+      			$(this).parent().slideUp();
+    		});
+		</script>
+		<?php
+	}
+
 
 	/*
 	Internal tools
@@ -92,11 +232,11 @@ class PsyForms {
 	private function input_submit($text, $class='') {
 		$submit = '<p>';
 		($class) ? $submit .= '<input type="submit" class="'.$class.'" ' : $submit .= '<input type="submit" ';
-		$submit .= 'value="'.$text.'" /></p>';
+		$submit .= 'value="'.$text.'"></p>';
 		return print $submit;
 	}
 	private function input_hidden($name, $val) {
-		return print '<input type="hidden" name="'.$name.'" value="'.$val.'" />';
+		return print '<input type="hidden" name="'.$name.'" id="'.$name.'" value="'.$val.'">';
 	}
 	private function input_area($class = '', $name, $values) {
 		if($class) $class = ' class="'.$class.'"';
@@ -105,13 +245,13 @@ class PsyForms {
 	private function input_text($field_name, $values, $labelname, $class = '') {
 		$text = '<p><label for="'. $field_name .'">'. $labelname .'</label>';
 		$text .= '<input type="text" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'" value="';
-		$text .= htmlentities($values[$field_name]) . '" /></p>';
+		$text .= htmlentities($values[$field_name]) . '"></p>';
 		return print $text;
 	}
 	private function input_password($field_name, $values, $labelname, $class = '') {
 		$pwd = '<p><label for="'. $field_name .'">'. $labelname .'</label>';
 		$pwd .= '<input type="password" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'" value="';
-		$pwd .= htmlentities($values[$field_name]) . '" /></p>';
+		$pwd .= htmlentities($values[$field_name]) . '"></p>';
 		return print $pwd;
 	}
 	private function resetKey($key) {
