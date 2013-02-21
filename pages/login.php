@@ -5,19 +5,11 @@
 */
 if(isset($_POST['_login_check']) && $_POST['_login_check']) {
 	if($form_errors = $forms->validate_login($_POST['usr'], $_POST['pwd'], $db)) {
-		?><h1>PsySkap: Logg inn</h1><?php
+		echo '<h1>PsySkap: Logg inn</h1>';
 		$forms->login($form_errors);
-	} else {
-		validateUser($_POST['usr']);
-		// print menu here
-		echo 'Du er logget inn!';
 	}
 } else {
-?>
-	<h1>PsySkap: Logg inn</h1>
-	<?php $forms->login(); ?>
-	
-
-<?php
+	echo '<h1>PsySkap: Logg inn</h1>';
+	$forms->login();
 }
 ?>

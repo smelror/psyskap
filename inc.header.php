@@ -3,7 +3,7 @@
 	Page: inc.header.php
 	Desc: Prepares page\menus then displays as HTML5
 */
-if(!isset($_GET['p'])) header("Location: ".$SERVER['PHP_SELF']."?p=velkommen");
+if(!isset($_GET['p'])) header("Location: ".$SERVER['PATH_INFO']."velkommen"); // ".$SERVER['PHP_SELF']."?p=velkommen"
 // startup and check
 session_start();
 
@@ -14,6 +14,8 @@ include "includes/classes/class.db.php";
 
 $forms = new PsyForms();
 $db = new PsyDB();
+
+checkLogin($forms, $db);
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
@@ -27,12 +29,12 @@ $title = 'PsySkap | '.ucfirst($page);
 <html lang="no">
 <head>
   <title><?php echo $title; ?></title>
-  <meta type="description" content="" />
+  <meta name="description" content="PsySkap - For deg som benytter bokskap hos PSI/UIO." />
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
-  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/style.css" />
-  <?php echo '<link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css">'; ?>
+  <link type="text/css" media="screen, projection" rel="stylesheet" href="http://www.psychaid.no/wp-content/themes/psychaid_v2/style.css">
+  <link type="text/css" media="screen, projection" rel="stylesheet" href="includes/psyskap.css">
   <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
 <body>
@@ -42,4 +44,4 @@ $title = 'PsySkap | '.ucfirst($page);
 	  <?php menu(is_logged_in(), $page); ?> 
 	</div>
 	<div id="content">
-  <?php if($page == "velkommen" || "finn" || "register") echo '<div id="pageContent">'; ?>
+  <?php if(!is_logged_in()) echo '<div id="pageContent">'; ?>

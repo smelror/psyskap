@@ -1,12 +1,23 @@
 /*
 	Name: PsySkap CSS
 	URI: psychaid.no/skap/
-	Ver.: 0.1
+	Ver.: 0.3
 	Author: Vegard Smelror Åmdal
 */
 
+/*
+	Psychaid.no Stylesheet Override
+*/
+#pageContent form { max-width: 100%; }
+
+ul#nav { position: relative !important; }
+#nav li.logout a { position: absolute; top: -85px; right: 0; }
+#nav li.logout a:hover { top: -69px; }
+/*
+	CTA Buttons
+*/
 .actionButtonList { list-style-type: none; padding: 0; }
-	.actionButtonList li { display: inline-block; vertical-align: middle; }
+	.actionButtonList li { vertical-align: middle; }
 	.actionButtonList li a, .actionButtonList li a:visited {
 		text-decoration: none;
 		background-color: #f5f5f5;
@@ -15,31 +26,89 @@
 		padding: 1em;
 		color: #333 !important;
 		display: block;
-		width: 20em;
+		max-width: 20em;
 		margin-right: 1em;
 		font-size: 1.1em;
 		line-height: 1.5;
 		position: relative;
 	}
-	.actionButtonList li a span { display: block; font-size: .8em; font-family: Arial, sans-serif; }
-	.actionButtonList li a:hover { background-color:#eee; }
-	.actionButtonList li a:active { box-shadow:inset 0 1px 2px #666; top: 2px;}
+	.actionButtonList li a span.maintext { display: block; }
+	.actionButtonList li a span.helptext { display: block; font-size: .8em; font-family: Arial, sans-serif; }
+	.actionButtonList li a:hover { background-color:#dedede; text-shadow: 1px 1px 0px #f5f5f5; }
+	.actionButtonList li a:active { box-shadow:inset 0 1px 2px #666; top: 2px; }
+	/*
+		.actionButtonList icons for special buttons
+	*/
+	.actionButtonList li a span#btnFinn, .actionButtonList li a span#btnReg { background: url("pics/icons-velkommen-cta.png") no-repeat transparent; }
+	.actionButtonList li a span#btnFinn { background-position: right -36px; }
+	.actionButtonList li a span#btnReg { background-position: right 0; }
 
 
 .skapListe { list-style-type: none; padding: 0; margin: 1em 0; }
-	.etg-button { cursor: pointer; border-bottom: 1px #00f dotted; }
+	.etg-button {
+		cursor: pointer;
+		background: url("pics/etg-button-arrow.png") no-repeat 0 8px #fff;
+		padding-left: .6em;
+		-webkit-transition: padding 0.3s ease-out;
+	}
+	.etg-button:hover { padding-left: 1em; }
 	.etasje { clear: both; padding: 0; font-variant: small-caps; }
-		.skapListe .skap { float: left; position: relative; list-style-type: none; display: inline-block; padding: 5px; border: 1px #ccc solid; cursor: pointer; margin-right: .5em; font-family: Arial, sans-serif; width: 3em; text-align: center; }
-		.skapListe .skap:hover { background: #f00; }
-		.skapListe .skap:active { background: yellow; top: 1px;}
-		.skapListe .skap-selected { background: #c00; }
-
+		.skapListe .skap {
+			float: left;
+			position: relative;
+			list-style-type: none;
+			display: inline-block;
+			padding: 5px;
+			border: 1px #ccc solid;
+			cursor: pointer;
+			margin-right: .5em;
+			font-family: Arial, sans-serif;
+			width: 3em;
+			text-align: center;
+			-webkit-transition: box-shadow 0.2s ease-out;
+			-moz-transition: box-shadow 0.2s ease-out;
+			-o-transition: box-shadow 0.2s ease-out;
+		}
+		.skapListe .skap:hover {
+			background: #F9F9F9;
+			-webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+			box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;	
+		}
+		.skapListe .skap:active { background: #9AC0FA; top: 1px; }
 
 .building-container { padding: .3em; }
-	.building-tabs-list { border-bottom: 1px #333 solid; padding: 0; }
-		.building-tab { cursor: pointer; background: #fff; margin-right: .5em; padding: 0 .3em; padding-bottom: -2px; }
-		.selected-tab { background: #333; color: #fff; }
+	.building-tabs-list { border-bottom: 1px #ccc solid; padding: 0; }
+		.building-tab {
+			cursor: pointer;
+			background: #F9F9F9;
+			border: 1px #ccc solid;
+			color: #06f;
+			margin-right: .5em;
+			padding: .1em .5em 1px .5em;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
+		}
+		.building-tab:hover { background: #fefefe; color: #87161A; }
+		.selected-tab {
+			background: #fff;
+			color: #333;
+			border-bottom: 0;
+			padding-bottom: 2px;
+		}
 
+.skapSingle { background: #fff; padding: 1em; }
+.skapNr-a, .skapNr-na, .skapEtg, .skapBygg, .skapPris, .skapEta { background: url("pics/icons-skap-details.png") no-repeat transparent; padding-left: 2.2em; }
+.skapNr-a { background-position: 0px -78px; }
+.skapNr-na { background-position: 0px -116px; }
+.skapEtg { background-position: 0px -40px; }
+.skapBygg { background-position: 0px -3px; }
+.skapPris { background-position: 0px -192px; }
+.skapEta { background-position: 0px -154px; }
+
+
+/*
+	Tools and general styling
+*/
 .clearfix:before, .clearfix:after, {
       content: '\0020';
       display: block;
@@ -50,8 +119,9 @@
 .clearfix:after {
       clear: both; }
 .clearfix { zoom: 1; }
-
-.info, .success, .warning, .error { border: 1px solid; padding: 15px 10px; }
+.raised { box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 3px rgba(0, 0, 0, 0.1) inset;	}
+.info, .success, .warning, .error { border: 1px solid; border-radius: 3px; padding: 15px 10px; list-style-type: none; }
+.info ul li, .success ul li, .warning ul li, .error ul li { margin-bottom: .3em; }
 .info { color: #00529B; background-color: #BDE5F8; }
 .success { color: #4F8A10; background-color: #DFF2BF; }
 .warning { color: #9F6000; background-color: #FEEFB3; }

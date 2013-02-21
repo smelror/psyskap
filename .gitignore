@@ -1,7 +1,16 @@
 # Hopefully this'll remove temp files
 *.php~
+
 # All non-essential files for non-PsychAid users
 *.csv
 *.gif
 *.png
 *.jpg
+
+# Testing pages
+test.php
+uninstall.php
+install.php
+
+# test-creds in db atm
+/includes/classes/class.db.php

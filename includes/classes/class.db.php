@@ -10,9 +10,17 @@ class PsyDB {
 
   // Sets variables for connection
   function __construct() {
+    /*
+    // Local server
     $this->dbname = "psyskap2";
     $this->dbuser = "root";
     $this->dbpwd = "";
+    */
+    // Live test-area!
+    $this->dbuser = 'psychaid_skap';  // db username
+    $this->dbpwd = '_KSNsnmax92u_12';    // db password
+    $this->dbname = 'psychaid_skap'; // db name
+
   }
 
   public function getCon() {
@@ -33,7 +41,7 @@ class PsyDB {
           'epost' => $epost
         ));
     } catch (PDOException $e) {
-      $this->logit('db.addMod failed: '. $e-getMessage() .'');
+      $this->logit('db.addMod failed: '. $e->getMessage() .'');
     }
   }
 
@@ -44,6 +52,27 @@ class PsyDB {
       $q->execute();
       $allSkap = $q->fetchAll();
       return $allSkap;
+  }
+
+  public function getSkap($skapnr) {
+    $c = $this->getCon();
+    $q = $c->prepare("SELECT * FROM skap WHERE skapnr = :nr");
+    $q->execute(array(':nr' => $skapnr));
+    $d = $q->fetch();
+    if($d) return $d;
+    else return null;
+  }
+
+  public function addSuggestion($eier, $skap) {
+    $c = $this->getCon();
+    try {
+      $q = $c->prepare("INSERT INTO forslag (navn, skap) VALUES (?, ?)");
+      $q->execute(array($eier, $skap));
+      return true;
+    } catch (PDOException $e) {
+      $this->logit('db.addSuggestion failed: '.$e->getMessage() .'');
+      return false;
+    }
   }
 
   public function logit($message) {

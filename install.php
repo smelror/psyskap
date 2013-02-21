@@ -3,12 +3,9 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 1.0.0
+	v 1.0.1
 =================
 */
-// Maximum execution time of 30 seconds exceeded - need to test more
-// if(!isset($_GET['step'])) { header('Location: '. $_SERVER['PHP_SELF'] .'?step=1'); }
-
 include_once 'includes/classes/class.db.php';
 include_once 'includes/classes/class.forms.php';
 include 'config.php';
@@ -104,7 +101,6 @@ if(!isset($_POST['addModerator'])) {
 	$skapfile = "skap.csv";
 	if (($handle = fopen($skapfile, "r")) !== FALSE) {
 	    while (($data = fgetcsv($handle, 1000, ":")) !== FALSE) {
-		// could work - if not use http://www.php.net/manual/en/function.array-push.php
 		$skapadd = array(
 			'skapnr' => $data[0],
 			'rom' => $data[1],
@@ -112,14 +108,12 @@ if(!isset($_POST['addModerator'])) {
 			'pris' => $data[3]		
 		);
 		array_push($all_skap, $skapadd);
-		//print '> '.$ins_skap.' '.$ins_rom.' '.$ins_bygg.' '.$ins_pris.' inserted.';
 	    }
 	    fclose($handle);
 	} else {
 		die("Could not find or read skap.csv file. The installation has stopped.");
 	}
 
-	// print_r($all_skap);
 	// check if table is empty
 	$q = $db->prepare('SELECT FROM skap');
 	$q->execute();
@@ -181,11 +175,11 @@ if(isset($_POST['addModerator']) && $_POST['addModerator']) {
 
 		// Send email to new moderator
 		$message = "
-			Hei!\n\n
-			Din epostadresse er registrert som moderator i PsySkap (http://www.psychaid.no/skap), og kan logge inn via\n
-			http://www.psychaid.no/skap/?p=login \n\n
-			usr: ".$_POST['mod']." \n
-			pwd: ".$_POST['pwd']." \n\n
+			Hei!<br><br>
+			Din epostadresse er registrert som moderator i PsySkap (http://www.psychaid.no/skap), og kan logge inn via<br>
+			http://www.psychaid.no/skap/?p=login <br><br>
+			usr: ".$_POST['mod']." <br>
+			pwd: ".$_POST['pwd']." <br><br>
 			Vi anbefaler at du endrer passord etter å ha logget inn.";
 		$maildata = array(
 			'to_email' => $_POST['epost'],

@@ -5,19 +5,21 @@
   */
 class PsyForms {
 	
-	public function finnSkap($id, $target) {
+	public function finnSkap($id, $target, $db) {
 	    $this->form_open($id, $target);
-	 	$this->resetKey('skapnr');
-	    $this->input_text('skapnr', $_POST, 'Skapnummer');
-	    $this->input_hidden('s', 1);
-	    $this->input_submit('Finn');
+		$this->skapTree($db);
+		$this->resetKey('skap');
+		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
+		$this->resetKey('selSkap');
+		$this->input_hidden("selSkap", '');
+		// $this->input_submit('Se p&aring; skap'); // JS submits from select
 	    $this->form_close();
 	}
 
 	public function login($errors = array()) {
 		$this->form_open('formLogin', 'login');
 		if($errors) {
-			echo '<ul class="errorBox"><li>';
+			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
 			echo '</li></ul>';
 		}
@@ -54,7 +56,7 @@ class PsyForms {
 	public function addMod($errors = array(), $id, $target) {
 		$this->form_open($id, $target);
 		if($errors) {
-			echo '<ul class="errorBox"><li>';
+			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
 			echo '</li></ul>';
 		}
@@ -82,27 +84,36 @@ class PsyForms {
 
 	public function register($id, $target, $db, $errors = array()) {
 		$this->form_open($id, $target);
+		echo '<fieldset>';
 		if($errors) {
-			echo '<ul class="errorBox"><li>';
+			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
 			echo '</li></ul>';
 		}
 		$this->resetKey('eier');
-		$this->input_text('eier', $_POST, 'UiO-brukernavn');
+		$this->input_text('eier', $_POST, 'UiO-brukernavn (ikke @student.sv.uio.no)');
 		$this->skapTree($db);
 		$this->resetKey('skap');
 		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
 		$this->resetKey('selSkap');
 		$this->input_text("selSkap", $_POST, 'Valgt skap');
 		$this->input_submit('Registrer');
+		echo '</fieldset>';
 		$this->form_close();
 	}
 
-	public function valdiate_register($eier, $skapnr) {
+	public function valdiate_register($eier, $skapnr, $db) {
 		$errors = array();
-		if(!isset($eier)) $errors[] = "UiO-brukernavn m&aring; fylles ut.";
-		if(!isset($skapnr)) $errors[] = "Skapnummer m&aring; velges.";
-		if($this->validEmail($eier)) $errors[] = "Kun UiO-brukernavn skal fylles ut, ikke @<uio-adresse>.";
+		if(empty($eier)) $errors[] = "UiO-brukernavn m&aring; fylles ut.";
+		if(empty($skapnr)) $errors[] = "Skapnummer m&aring; velges.";
+		$alleSkap = $db->getAllSkap();
+		$alleSkapNr = array();
+		foreach ($alleSkap as $s) {
+			$alleSkapNr[] = $s['skapnr'];
+		}
+		if(!in_array($skapnr, $alleSkapNr)) $errors[] = "Ugyldig skapnummer.";
+		if($this->validEmail($eier)) $errors[] = "Kun UiO-brukernavn skal fylles ut, ikke @&lt;uio-adresse&gt;.";
+		if(preg_match("/[0-9]+/", $eier)) $errors[] = "UiO-brukernavn inneholder ikke tall.";
 		return $errors;
 	}
 
@@ -190,7 +201,7 @@ class PsyForms {
 		}
 		echo '</ul></div>';
 		echo '</div>'; // #gamlebygget
-		echo '<div class="clearer clearfix"></div>';
+		echo '<div class="clearer clearfix grayTopLine">&nbsp;</div>'; // Boxes it in
 		echo '</div>'; // .building-container
 		?>
 		<script type="text/javascript">
@@ -212,8 +223,10 @@ class PsyForms {
 			$("li.skap").click(function () {
 				$('#skap').attr('value', $(this).attr("id"));
 				$('#selSkap').attr('value', $(this).attr("id"));
-      			// $(this).addClass("skap-selected"); // just for testing
-      			$(this).parent().slideUp();
+				if($(this).parents('#finnSkap').length) {
+					$("#finnSkap").submit();
+				}
+				else { $(this).parent().slideUp(); }
     		});
 		</script>
 		<?php
@@ -224,7 +237,7 @@ class PsyForms {
 	Internal tools
 	*/
 	private function form_open($id, $target) {
-		return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PHP_SELF'].'?p='.$target.'">';
+		return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].'">'; // ?p='.$target.'
 	}
 	private function form_close() {
 		return print '</form>';
