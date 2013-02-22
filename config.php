@@ -72,6 +72,18 @@ function menu($loggedin, $selected) {
 		}
 		echo "</ul>";
 	}
+
+// Action buttons (ul/ol class actionButtonList)
+
+function acb_o() { echo '<ul class="actionButtonList">'; }
+function acb($href, $id = '', $maintext, $helptext) {
+	$acb = '<li><a href="'.$href.'" class="transBackground" title="'.$maintext.'">';
+	($id != '') ? $acb .= '<span class="maintext" id="'.$id.'">' : $acb .= '<span class="maintext">';
+	$acb .= $maintext.'</span><span class="helptext">'.$helptext.'</span></a></li>';
+	print $acb;
+}
+function acb_c() { echo '</ul>'; }
+	
 // Prints out a <li><a>
 function lia($url, $text, $class = '') {
   ($class == '')?  $line = '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>' : $line = '<li class="'.$class.'"><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>';
