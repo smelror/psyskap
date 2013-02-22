@@ -18,6 +18,7 @@ class PsyForms {
 
 	public function login($errors = array()) {
 		$this->form_open('formLogin', 'login');
+		echo "<fieldset>";
 		if($errors) {
 			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
@@ -29,6 +30,7 @@ class PsyForms {
 		$this->input_password('pwd', $_POST, "Passord");
 		$this->input_submit('Logg inn');
 		$this->input_hidden('_login_check', 1);
+		echo "</fieldset>";
 		$this->form_close();
 	}
 	public function validate_login($usr, $pwd, $db) {

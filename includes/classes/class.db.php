@@ -10,13 +10,6 @@ class PsyDB {
 
   // Sets variables for connection
   function __construct() {
-    /*
-    // Local server
-    $this->dbname = "psyskap2";
-    $this->dbuser = "root";
-    $this->dbpwd = "";
-    */
-    // Live test-area!
     $this->dbuser = 'psychaid_skap';  // db username
     $this->dbpwd = '_KSNsnmax92u_12';    // db password
     $this->dbname = 'psychaid_skap'; // db name
@@ -59,7 +52,7 @@ class PsyDB {
     $q = $c->prepare("SELECT * FROM skap WHERE skapnr = :nr");
     $q->execute(array(':nr' => $skapnr));
     $d = $q->fetch();
-    if($d) return $d;
+    if(!empty($d)) return $d;
     else return null;
   }
 

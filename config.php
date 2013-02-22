@@ -56,9 +56,9 @@ function menu($loggedin, $selected) {
 							 "url" => "semester",
 							 "text" => "Semester"
 							 ),
-  				     "instillinger" => array(
-						 "url" => "instillinger",
-						 "text" => "Instillinger"
+  				     "innstillinger" => array(
+						 "url" => "innstillinger",
+						 "text" => "Innstillinger"
 						 )
 				     );
 		  foreach ($menuitems as $item) {

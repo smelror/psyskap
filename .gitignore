@@ -13,4 +13,4 @@ uninstall.php
 install.php
 
 # test-creds in db atm
-/includes/classes/class.db.php
+includes/classes/class.db.php
