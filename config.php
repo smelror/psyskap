@@ -13,13 +13,18 @@ function removeWhiteSpace($toBeFixed) {
 	return preg_replace( $sPattern, $sReplace, $toBeFixed );
 }
 
-function checkLogin($forms, $db) {
+function checkHeaders($forms, $db) {
 	if(isset($_POST['_login_check']) && $_POST['_login_check']) {
 	  if(!$forms->validate_login($_POST['usr'], $_POST['pwd'], $db)) {
 	    validateUser($_POST['usr']);
 	    header("Location: ".$SERVER['PATH_INFO']."dashboard");
 	  }
 	}
+	/* 
+	if(isset($_POST['editusr']) && $_POST['editusr']) {
+		$curUser = $db->getUser($_SESSION['userid']);
+		if($curUser['epost'] != $_POST['new_epost']) validateUser($_POST['new_epost']);
+	} */
 }
 
 // Check if user is logged in or not

@@ -180,7 +180,9 @@ if(isset($_POST['addModerator']) && $_POST['addModerator']) {
 			http://www.psychaid.no/skap/?p=login <br><br>
 			usr: ".$_POST['mod']." <br>
 			pwd: ".$_POST['pwd']." <br><br>
-			Vi anbefaler at du endrer passord etter å ha logget inn.";
+			Vi anbefaler at du endrer passord etter å ha logget inn. <br><br>
+			Mvh, PsychAid <br>
+			skap@psychaid.no";
 		$maildata = array(
 			'to_email' => $_POST['epost'],
 			'to_name' => $_POST['mod'],

@@ -15,7 +15,7 @@ include "includes/classes/class.db.php";
 $forms = new PsyForms();
 $db = new PsyDB();
 
-checkLogin($forms, $db);
+checkHeaders($forms, $db);
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];

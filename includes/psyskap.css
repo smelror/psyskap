@@ -10,6 +10,10 @@
 */
 #pageContent form { max-width: 100%; }
 #pageContent ul li { margin-bottom: .2em !important; }
+#pageContent table { border-collapse: collapse; width: 100%; }
+#pageContent table tr { border-bottom: 1px #eee solid; }
+#pageContent table tr td { padding: 5px; }
+#pageContent table tr th { background-color: #eee; font-family: Arial, sans-serif; font-size: .9em; padding: 4px; text-shadow: #fff 1px 1px 1px; }
 
 ul#nav { position: relative !important; }
 #nav li.logout a { position: absolute; top: -91px; right: 0; -webkit-transition: all .3s ease; -moz-transition: all .3s ease; -ms-transition: all .3s ease; }
@@ -43,7 +47,10 @@ ul#nav { position: relative !important; }
 	.actionButtonList li a span#btnFinn, .actionButtonList li a span#btnReg { background: url("pics/icons-velkommen-cta.png") no-repeat transparent; }
 	.actionButtonList li a span#btnFinn { background-position: right -36px; }
 	.actionButtonList li a span#btnReg { background-position: right 0; }
-
+	.actionButtonList li a span#userinfo, .actionButtonList li a span#mods, .actionButtonList li a span#elog { background: url("pics/icons-settings.png") no-repeat transparent; }
+	.actionButtonList li a span#userinfo { background-position: right 0; }
+	.actionButtonList li a span#mods { background-position: right -36px; }
+	.actionButtonList li a span#elog { background-position: right -72px; }
 
 .skapListe { list-style-type: none; padding: 0; margin: 1em 0; }
 	.etg-button {
@@ -51,9 +58,11 @@ ul#nav { position: relative !important; }
 		background: url("pics/etg-button-arrow.png") no-repeat 0 8px #fff;
 		padding-left: .6em;
 		-webkit-transition: padding 0.3s ease-out;
+		-moz-transition: padding 0.3s ease-out;
+		-ms-transition: padding 0.3s ease-out;
 	}
 	.etg-button:hover { padding-left: 1em; }
-	.etasje { clear: both; padding: 0; font-variant: small-caps; }
+	.etasje { clear: both; padding: 0; }
 		.building-container .skapListe .skap,
 		#pageContent .building-container .skapListe .skap {
 			float: left;
@@ -74,7 +83,6 @@ ul#nav { position: relative !important; }
 		}
 		.skapListe .skap:hover {
 			background: #F9F9F9;
-			-webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 			box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;	
 		}
 		.skapListe .skap:active { background: #9AC0FA; top: 1px; }
@@ -123,7 +131,7 @@ ul#nav { position: relative !important; }
       clear: both; }
 .clearfix { zoom: 1; }
 .raised { box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 3px rgba(0, 0, 0, 0.1) inset;	}
-.info, .success, .warning, .error { border: 1px solid; border-radius: 3px; padding: 15px 10px; list-style-type: none; }
+.info, .success, .warning, .error { border: 1px solid; border-radius: 3px; padding: 15px 10px; list-style-type: none; margin-top: 0; }
 .info ul li, .success ul li, .warning ul li, .error ul li { margin-bottom: .3em; }
 .info { color: #00529B; background-color: #BDE5F8; }
 .success { color: #4F8A10; background-color: #DFF2BF; }

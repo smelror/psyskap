@@ -12,13 +12,14 @@ class PsyForms {
 		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
 		$this->resetKey('selSkap');
 		$this->input_hidden("selSkap", '');
-		// $this->input_submit('Se p&aring; skap'); // JS submits from select
+		echo '<noscript>';
+			$this->input_submit('Se p&aring; skap'); // JS submits from select
+		echo '</noscript>';
 	    $this->form_close();
 	}
 
 	public function login($errors = array()) {
 		$this->form_open('formLogin', 'login');
-		echo "<fieldset>";
 		if($errors) {
 			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
@@ -30,7 +31,6 @@ class PsyForms {
 		$this->input_password('pwd', $_POST, "Passord");
 		$this->input_submit('Logg inn');
 		$this->input_hidden('_login_check', 1);
-		echo "</fieldset>";
 		$this->form_close();
 	}
 	public function validate_login($usr, $pwd, $db) {
@@ -77,16 +77,16 @@ class PsyForms {
 		if(!isset($mod, $pwd, $epost, $db)) { $errors[] = "Alle felt m&aring; fylles ut."; }
 		if(!$this->validEmail($epost)) $errors[] = "Ugylding epostadresse.";
 		if(strlen($pwd) < 5) $errors[] = "Passord m&aring; v&aelig;re lengre enn fem karakterer.";
-		$q = $db->prepare("SELECT FROM users WHERE username = :user");
-		$q->execute(array('user' => $mod));
-		$count = $q->rowCount();
-		if($count) $errors[] = "Brukernavnet er allerede registrert.";
+		$q = $db->prepare("SELECT * FROM users WHERE username = :user");
+		$q->execute(array(':user' => $mod));
+		$rows = $q->fetchAll();
+		$count = count($rows);
+		if($count > 0) $errors[] = "Brukernavnet er allerede registrert.";
 		return $errors;
 	}
 
 	public function register($id, $target, $db, $errors = array()) {
 		$this->form_open($id, $target);
-		echo '<fieldset>';
 		if($errors) {
 			echo '<ul class="warning"><li>';
 			echo implode('</li><li>',$errors);
@@ -100,7 +100,6 @@ class PsyForms {
 		$this->resetKey('selSkap');
 		$this->input_text("selSkap", $_POST, 'Valgt skap');
 		$this->input_submit('Registrer');
-		echo '</fieldset>';
 		$this->form_close();
 	}
 
@@ -234,15 +233,45 @@ class PsyForms {
 		<?php
 	}
 
+	/*
+	Forms for: Innstillinger
+	*/
+	public function editUser($curEpost, $errors = array()) {
+		$this->form_open('editUserForm','innstillinger&amp;sub=edit');
+		if($errors) {
+			echo '<ul class="warning"><li>';
+			echo implode('</li><li>',$errors);
+			echo '</li></ul>';
+		}
+		$this->resetKey('new_epost');
+		$this->resetKey('new_pwd');
+		$this->resetKey('new_pwd_control');
+		$newepostext = 'Ny epostadresse ('.$curEpost.')';
+		$this->input_text('new_epost', $_POST, $newepostext);
+		$this->input_password('new_pwd', $_POST, 'Nytt passord');
+		$this->input_password('new_pwd_control', $_POST, 'Bekreft nytt passord');
+		$this->input_hidden('editusr', 1);
+		$this->input_submit('Lagre endringer');
+		$this->form_close();
+	}
+	public function validate_editUser($curUser, $new_epost, $new_pwd, $new_pwd_control, $c) {
+		$errors = array();
+		if(($new_epost == '') && ($new_pwd == '')) $errors[] = "Feltene er ikke utfyllt riktig.";
+		if(($new_epost != '') && ($new_epost == $curUser['epost'])) $errors[] = "Ny epost er den samme som benyttes n&aring;.";
+		if(($new_epost != '') && (!$this->validEmail($new_epost))) $errors[] = "Ny epost er ikke en godkjent e-postadresse.";
+		if(($new_pwd != '') && ($new_pwd != $new_pwd_control)) $errors[] = "Nytt passord og bekreft passord m&aring; v&aelig;re like.";
+		return $errors;
+	}
 
 	/*
 	Internal tools
 	*/
 	private function form_open($id, $target) {
-		return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].'">'; // ?p='.$target.'
+		if(strstr($target, '&amp;sub')) return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].$target.'"><fieldset>'; // if subpages
+		else return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].'"><fieldset>'; // no subpages
 	}
 	private function form_close() {
-		return print '</form>';
+		return print '</fieldset></form>';
 	}
 	private function input_submit($text, $class='') {
 		$submit = '<p>';
