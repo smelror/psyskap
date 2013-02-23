@@ -34,9 +34,10 @@ class PsyDB {
           'salt' => $salt,
           'epost' => $epost
         ));
+      $this->logit('Moderator lagt til: '.$usr.'.');
       return true;
     } catch (PDOException $e) {
-      $this->logit('db.addMod failed: '. $e->getMessage() .'');
+      $this->logit('db.addMod failed: '. $e->getMessage() .'', 1);
       return false;
     }
   }
@@ -96,7 +97,7 @@ class PsyDB {
       }
       return true;
     } catch (PDOException $e) {
-      $this->logit('db.editUser failed: '.$e->getMessage() .'');
+      $this->logit('db.editUser failed: '.$e->getMessage() .'', 1);
       return false;
     }
   }
@@ -111,17 +112,17 @@ class PsyDB {
       $q->execute(array($eier, $skap));
       return true;
     } catch (PDOException $e) {
-      $this->logit('db.addSuggestion failed: '.$e->getMessage() .'');
+      $this->logit('db.addSuggestion failed: '.$e->getMessage() .'', 1);
       return false;
     }
   }
 
-  public function logit($message) {
+  public function logit($message, $t = 0) {
     if(!$message) { die(); }
-    $db = $this->getCon();
+    $c = $this->getCon();
     try {
-        $ps = $db->prepare("INSERT INTO errorlog (message) VALUES (?)");
-        $ps->execute(array($message));
+        $ps = $c->prepare("INSERT INTO errorlog (melding, type) VALUES (:mld, :type)");
+        $ps->execute(array(':mld' => $message, ':type' => $t));
     } catch (PDOException $e) {
         print '<div class="error">Logit error: ' . $e->getMessage() . '<div/>';
         die();
@@ -129,7 +130,7 @@ class PsyDB {
   }
   public function getErrorlog() {
     $c = $this->getCon();
-    $q = $c->prepare("SELECT * FROM errorlog ORDER BY DESC");
+    $q = $c->prepare("SELECT * FROM errorlog");
     $q->execute();
     $elog = $q->fetchAll();
     return $elog;

@@ -20,11 +20,6 @@ function checkHeaders($forms, $db) {
 	    header("Location: ".$SERVER['PATH_INFO']."dashboard");
 	  }
 	}
-	/* 
-	if(isset($_POST['editusr']) && $_POST['editusr']) {
-		$curUser = $db->getUser($_SESSION['userid']);
-		if($curUser['epost'] != $_POST['new_epost']) validateUser($_POST['new_epost']);
-	} */
 }
 
 // Check if user is logged in or not

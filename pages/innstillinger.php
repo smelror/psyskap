@@ -17,24 +17,39 @@ echo '<div id="pageContent">';
 if($sub == 'logg') {
    echo '<h1>Systemlogg</h1>';
    $el = $db->getErrorlog();
-   if(!empty($el)) {
+   $er = array();
+   $hi = array();
+   foreach ($el as $l) {
+     if($l['type'] == 0) array_push($hi,$l);
+     else array_push($er, $l);
+   }
+   echo '<h2>Feilmeldinger</h2>';
+   if(!empty($er)) {
       echo '<table>';
       echo '<thead><tr><th>ID</th><th>Melding</th><th>Dato</th></tr></thead>';
       echo '<tbody>';
-      foreach ($el as $m) {
+      foreach ($er as $m) {
         echo '<tr><td>'.$m['id'].'</td><td>'.$m['melding'].'</td><td>'.$m['dato'].'</td></tr>';
       }
       echo '</tbody></table>';
    } else {
     echo '<p class="info">Det er ingen feilmeldinger &aring; rapportere! En fin dag idag, ikke sant?</p>';
    }
+   echo '<h2>Systemhistorie</h2>';
+   echo '<table>';
+   echo '<thead><tr><th>ID</th><th>Melding</th><th>Dato</th></tr></thead>';
+   echo '<tbody>';
+   foreach ($hi as $m) {
+    echo '<tr><td>'.$m['id'].'</td><td>'.$m['melding'].'</td><td>'.$m['dato'].'</td></tr>';
+   }
+   echo '</tbody></table>';
 }
 
 // 2. Display edit user info - seems to work OK (DO NOT CHANGE)
 elseif ($sub == 'edit') {
-	echo '<h1>Endre brukerinfo: '.$curUser['username'].'</h1>';
+	echo '<h1>Endre brukerinfo for '.$curUser['username'].'</h1>';
 	if(isset($_POST['editusr']) && $_POST['editusr']) { // Check if submitted changes
-    if($errors = $forms->validate_editUser($curUser, $_POST['new_epost'], $_POST['new_pwd'], $_POST['new_pwd_control']), $db->getCon()) {
+    if($errors = $forms->validate_editUser($curUser, $_POST['new_epost'], $_POST['new_pwd'], $_POST['new_pwd_control'], $db->getCon())) {
       $forms->editUser($curUser['epost'], $errors);
     } else {
       if($db->editUser($curUser['id'], $_POST['new_epost'], $_POST['new_pwd'])) {

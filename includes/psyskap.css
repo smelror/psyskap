@@ -8,6 +8,7 @@
 /*
 	Psychaid.no Stylesheet Override
 */
+html { height: 101%; } /* Force vertical scrollbar */
 #pageContent form { max-width: 100%; }
 #pageContent ul li { margin-bottom: .2em !important; }
 #pageContent table { border-collapse: collapse; width: 100%; }

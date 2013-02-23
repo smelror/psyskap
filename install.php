@@ -62,7 +62,8 @@ if(!isset($_POST['addModerator'])) {
 		CREATE TABLE IF NOT EXISTS errorlog (
 			id 	int(4)	NOT NULL AUTO_INCREMENT,
 			melding text NOT NULL,
-			dato TIMESTAMP(8),
+			type int(1) NOT NULL DEFAULT '0',
+			dato TIMESTAMP DEFAULT NOW(),
 			PRIMARY KEY(id)
 		);");
 	echo "OK!</p>";
@@ -151,7 +152,8 @@ if(!isset($_POST['addModerator'])) {
 	$q = $db->prepare("UPDATE semester SET current = 1 WHERE id = ?");
 	$q->execute(array($cur));
 	echo 'OK!</p>';
-
+	$mld = "PsySkap opprettet. Klart til bruk.";
+	$dbs->logit($mld);
 
 print "<p>Registrer moderator:</p>";
 $form->addMod(null, 'addModForm', 'install'); // Posts to install.php?step=2
@@ -172,12 +174,14 @@ if(isset($_POST['addModerator']) && $_POST['addModerator']) {
 		print "<p>Registrerer moderator for: ".$_POST['epost'];
 		$dbs->addMod($_POST['mod'], $_POST['pwd'], $_POST['epost']);
 		print "... OK!</p>";
+		$mld = "F&oslash;rste moderator opprettet: ".$_POST['mod'].".";
+		$dbs->logit($mld);
 
 		// Send email to new moderator
 		$message = "
 			Hei!<br><br>
 			Din epostadresse er registrert som moderator i PsySkap (http://www.psychaid.no/skap), og kan logge inn via<br>
-			http://www.psychaid.no/skap/?p=login <br><br>
+			http://www.psychaid.no/skap/login <br><br>
 			usr: ".$_POST['mod']." <br>
 			pwd: ".$_POST['pwd']." <br><br>
 			Vi anbefaler at du endrer passord etter å ha logget inn. <br><br>
