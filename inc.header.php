@@ -19,8 +19,13 @@ checkHeaders($forms, $db);
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
-elseif(isset($_GET['p']) && ($_GET['p'] == 'login')) $page = "login";
-else $page = $_GET['p'];
+// if not logged in
+else {
+  $allowed = array('login', 'velkommen', 'finn', 'register');
+  if(in_array($_GET['p'], $allowed)) $page = $_GET['p'];
+  else $page = 'velkommen';
+}
+
 
 // Set title
 $title = 'PsySkap | '.ucfirst($page);

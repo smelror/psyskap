@@ -26,7 +26,7 @@ class PsyForms {
 			echo '</li></ul>';
 		}
 		$this->resetKey('usr');
-		$this->input_text('usr', $_POST, "Brukernavn");
+		$this->input_text('usr', $_POST, "Brukernavn", '', 'Brukernavn');
 		$this->resetKey('pwd');
 		$this->input_password('pwd', $_POST, "Passord");
 		$this->input_submit('Logg inn');
@@ -246,8 +246,7 @@ class PsyForms {
 		$this->resetKey('new_epost');
 		$this->resetKey('new_pwd');
 		$this->resetKey('new_pwd_control');
-		$newepostext = 'Ny epostadresse ('.$curEpost.')';
-		$this->input_text('new_epost', $_POST, $newepostext);
+		$this->input_text('new_epost', $_POST, 'Ny epostadresse', '', $curEpost);
 		$this->input_password('new_pwd', $_POST, 'Nytt passord');
 		$this->input_password('new_pwd_control', $_POST, 'Bekreft nytt passord');
 		$this->input_hidden('editusr', 1);
@@ -286,9 +285,10 @@ class PsyForms {
 		if($class) $class = ' class="'.$class.'"';
 		return print '<textarea'.$class.' id="'.$name.'" name="'.$name.'">'.htmlentities($values[$name]).'</textarea>';
 	}
-	private function input_text($field_name, $values, $labelname, $class = '') {
+	private function input_text($field_name, $values, $labelname, $class = '', $placeholder = '') {
 		$text = '<p><label for="'. $field_name .'">'. $labelname .'</label>';
-		$text .= '<input type="text" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'" value="';
+		$text .= '<input type="text" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'"';
+		($placeholder) ? $text .= ' placeholder="'.$placeholder.'" value="' : $text .= ' value="';
 		$text .= htmlentities($values[$field_name]) . '"></p>';
 		return print $text;
 	}
