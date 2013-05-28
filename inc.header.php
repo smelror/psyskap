@@ -43,10 +43,17 @@ $title = 'PsySkap | '.ucfirst($page);
   <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 </head>
 <body>
-  <div id="wrapper">
-  	<div id="menu">
-	  <p id="logo"><a href="http://www.psychaid.no/"><img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" /></a></p>
-	  <?php menu(is_logged_in(), $page); ?> 
-	</div>
-	<div id="content">
+<div id="menu">
+  <div class="row">
+    <p id="logo">
+      <?php $homeurl; if(is_logged_in()) $homeurl = 'http://www.psychaid.no/skap/dashboard'; else $homeurl = 'http://www.psychaid.no/';
+      echo '<a href="'.$homeurl.'">'; ?>
+        <img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" />
+      </a>
+    </p>
+    <?php menu(is_logged_in(), $page); ?>
+  </div><!-- row -->
+</div><!-- menu -->
+<div id="wrapper" class="clearer">
+  <div id="content">
   <?php if(!is_logged_in()) echo '<div id="pageContent">'; ?>
