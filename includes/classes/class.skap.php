@@ -34,7 +34,7 @@ class Skap {
       $q->execute(array($variable, $value,':skapnr' => $this->getNr()));
       return true;
     } catch (PDOException $e) {
-      $db->logit("User.setUserSkap.error: " .$e->getMessage() ."<br />");
+      $db->logit("Skap.set.error: " .$e->getMessage() ."<br />");
     }
     return false;
   }

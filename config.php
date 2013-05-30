@@ -4,7 +4,6 @@
 	Desc: Tools, all-accessible variables and such.
 */
 
-
 // Removes any whitespace from a string
 function removeWhiteSpace($toBeFixed) {
 	if(!$toBeFixed) { return false; }
@@ -73,7 +72,7 @@ function menu($loggedin, $selected) {
 		echo "</ul>";
 	}
 
-// Action buttons (ul/ol class actionButtonList)
+// Action buttons (ul.actionButtonList)
 
 function acb_o() { echo '<ul class="actionButtonList">'; }
 function acb($href, $id = '', $maintext, $helptext) {
