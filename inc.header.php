@@ -24,7 +24,7 @@ else {
   else $page = 'velkommen';
 }
 
-$model = 'model/'.$page.'php';
+$model = 'model/'.$page.'.php';
 if(file_exists($model)) {
   include $model; // Perform headerscheck and business logic
 }

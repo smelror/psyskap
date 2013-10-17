@@ -21,34 +21,11 @@ Plan:
 5. Post endringer via jquery (ajax)
 6. oppdater tabell
 */
-
-
-
-function createTable($id, $skap_array) {
-	echo '<table id="'.$id.'">';
-	echo '<thead>
-			<tr>
-				<td>Skapnr</td>
-				<td>Etg</td>
-				<td>Eier</td>
-				<td>Betalt</td>
-				<td>Merknad</td>
-			</tr>
-		  </thead>
-		  <tbody>';
-	foreach ($skap_array as $skap) {
-		echo '<tr id="'.$skap->getNr().'">';
-		echo '<td>'.$skap->getNr().'</td>';
-		echo '<td>'.$skap->getRom().'</td>';
-		echo '<td>'.$skap->getEier().'</td>';
-		if($skap->isBetalt()) {
-			echo '<td>Ja.</td>';	
-		} else {
-			echo '<td><button type="button" class="btn-betal" id="betal-'.$skap->getNr().'">Betalt</button></td>';	
-		}
-		echo '<td>'.$skap->getMerknad().'</td>';
-		echo '</tr>';
-	}
-	echo '</tbody></table>';	
-}
 ?>
+<script type="text/javascript">
+$("button.btn-green").click(function () {
+	var skap = $(this).attr("id");
+	$(this).text(" Laster ");
+	alert(skap);
+});
+</script>

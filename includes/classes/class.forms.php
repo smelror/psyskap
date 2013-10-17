@@ -273,8 +273,10 @@ class PsyForms {
 	Internal tools
 	*/
 	private function form_open($id, $target) {
-		if(strstr($target, '&amp;sub')) return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].$target.'"><fieldset>'; // if subpages
-		else return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].'"><fieldset>'; // no subpages
+		if(strstr($target, '&amp;sub'))
+			return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].$target.'"><fieldset>'; // if subpages
+		else
+			return print '<form id="'.$id.'" method="POST" action="'.$_SERVER['PATH_INFO'].'"><fieldset>'; // no subpages
 	}
 	private function form_close() {
 		return print '</fieldset></form>';

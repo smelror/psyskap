@@ -15,7 +15,7 @@ class Skap {
     $this->nr = $d['skapnr'];
     $this->rom = $d['rom'];
     $this->bygg = $d['bygg'];
-    $this->merknad = $d['merknad']
+    $this->merknad = $d['merknad'];
     if($d['eier']) $this->eier = $d['eier'];
     else $this->eier = '';
   }
@@ -28,13 +28,17 @@ class Skap {
   public function isAvailable() { return ($this->eier == ''); }
   
   public function set($variable, $value, $db) {
-    if($variable != "skapnr" || "rom" || "bygg" || "eier" || "merknad" || "betalt") { die("Nonexistent variable declared."); }
+    $allowed = array("skapnr", "rom", "bygg", "eier", "merknad", "betalt");
+    if(!in_array($variable, $allowed)) { die("Nonexistent variable declared."); }
     if(!$value) { die("No value given."); }
     try {
       $c = $db->getCon(); // $db inn er hele objektet, ikke tilkoblingen
       // $sql = "UPDATE skap SET eier = :eierid WHERE nr = :skapnr";
-      $q = $c->prepare("UPDATE skap SET ? = ? WHERE skapnr = :skapnr");
-      $q->execute(array($variable, $value,':skapnr' => $this->getNr()));
+      $q = $c->prepare("UPDATE skap SET ? = ? WHERE skapnr = ?");
+      $q->bindParam(1, $variable);
+      $q->bindParam(2, $value);
+      $q->bindParam(3, $this->getNr());
+      $q->execute();
       return true;
     } catch (PDOException $e) {
       $db->logit("Skap.set.error: " .$e->getMessage() ."<br />");

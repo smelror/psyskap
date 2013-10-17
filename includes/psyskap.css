@@ -17,8 +17,8 @@ html { height: 101%; } /* Force vertical scrollbar */
 #pageContent table tr th { background-color: #eee; font-family: Arial, sans-serif; font-size: .9em; padding: 4px; text-shadow: #fff 1px 1px 1px; }
 
 ul#nav { position: relative !important; }
-#nav li.logout a { position: absolute; top: -91px; right: 0; -webkit-transition: all .3s ease; -moz-transition: all .3s ease; -ms-transition: all .3s ease; }
-#nav li.logout a:hover { top: -79px; }
+#nav li.logout a { margin-left: 2.5em; }
+#nav li.logout a:hover { background-color: #f00; color: #000;}
 /*
 	CTA Buttons
 */
@@ -52,7 +52,56 @@ ul#nav { position: relative !important; }
 	.actionButtonList li a span#userinfo { background-position: right 0; }
 	.actionButtonList li a span#mods { background-position: right -36px; }
 	.actionButtonList li a span#elog { background-position: right -72px; }
+/*
+	Skap table
+*/
+.skapTable { border-collapse: collapse; width: 100%; }
+	.skapTable tr { border: 1px #eee solid; }
+	.skapTable tr td { padding: 10px; }
+	.skapTable tr th { background-color: #eee; font-family: Arial, sans-serif; padding: 8px; text-shadow: #fff 1px 1px 1px; border-right: 4px #fff solid; }
+	.skapTable td.nummer { width: 65px; font-size: 1.3em; }
+	.skapTable td.rom { width: 65px; font-size: 1.3em; }
 
+
+/*
+	UI buttons
+*/
+[class*='btn-'] {
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+	  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+	color: #fff;
+	display: inline-block;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	padding: 8px 16px;
+	text-decoration: none;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+	
+	-webkit-transition: background-color 0.1s linear;
+	-moz-transition: background-color 0.1s linear;
+	-o-transition: background-color 0.1s linear;
+	  transition: background-color 0.1s linear;	
+}
+[class*='btn-']:hover {
+		cursor: pointer;
+	}
+
+.btn-green {
+	background-color: rgb( 43, 153, 91 );
+	border: 1px solid rgb( 33, 126, 74 );
+}
+	.btn-green:hover {
+		background-color: rgb( 75, 183, 141 );
+	}
+	.btn-green:active {
+		background-color: rgb( 33, 126, 74 );
+	}
+
+/*
+	Skap Tree View
+*/
 .skapListe { list-style-type: none; padding: 0; margin: 1em 0; }
 	.etg-button {
 		cursor: pointer;
@@ -132,6 +181,10 @@ ul#nav { position: relative !important; }
 .clearfix:after {
       clear: both; }
 .clearfix { zoom: 1; }
+.alignRight { text-align: right; }
+.alignLeft { text-align: left; }
+.alignCenter { text-align: center; }
+.noBorder { border: none !important; }
 .raised { box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 3px rgba(0, 0, 0, 0.1) inset;	}
 .info, .success, .warning, .error { border: 1px solid; border-radius: 3px; padding: 15px 10px; list-style-type: none; margin-top: 0; }
 .info ul li, .success ul li, .warning ul li, .error ul li { margin-bottom: .3em; }
