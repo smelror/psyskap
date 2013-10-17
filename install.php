@@ -3,7 +3,7 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 1.0.1
+	v 1.2.1
 =================
 */
 include_once 'includes/classes/class.db.php';
@@ -23,9 +23,7 @@ if(!isset($_POST['addModerator'])) {
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS eiere (
 			id	int	NOT NULL AUTO_INCREMENT,
-			navn varchar(30) NOT NULL,
-			saldo int(5) NOT NULL,
-			betalt_tom varchar(3) NOT NULL,
+			uiousr varchar(30) NOT NULL,
 			type int(1) NOT NULL DEFAULT '1',
 			merknad text,
 			skap varchar(5) NOT NULL,
@@ -50,7 +48,7 @@ if(!isset($_POST['addModerator'])) {
 			skapnr varchar(5) NOT NULL,
 			rom varchar(8) NOT NULL,
 			bygg varchar(8) NOT NULL,
-			pris int(2) NOT NULL,
+			betalt int(1) NOT NULL DEFAULT '0',
 			eier int(10) NOT NULL,
 			PRIMARY KEY(skapnr)
 		);");

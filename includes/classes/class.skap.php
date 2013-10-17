@@ -14,7 +14,7 @@ class Skap {
     $this->nr = $d['skapnr'];
     $this->rom = $d['rom'];
     $this->bygg = $d['bygg'];
-    $this->pris = $d['pris'];
+    $this->pris = $GLOBALS['pris'];
     if($d['eier']) $this->eier = $d['eier'];
     else $this->eier = '';
   }
@@ -25,7 +25,7 @@ class Skap {
   public function getEier() { return $this->eier; }
   public function isAvailable() { return ($this->eier == ''); }
   public function set($variable, $value, $db) {
-    if($variable != "skapnr" || "rom" || "bygg" || "pris" || "eier") { die("Nonexistent variable declared."); }
+    if($variable != "skapnr" || "rom" || "bygg" || "eier") { die("Nonexistent variable declared."); }
     if(!$value) { die("No value given."); }
     try {
       $c = $db->getCon(); // $db inn er hele objektet, ikke tilkoblingen

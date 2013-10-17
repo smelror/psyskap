@@ -116,7 +116,7 @@ class PsyDB {
       return false;
     }
   }
-
+  // $t = type(1 = error, 0 = historikk)
   public function logit($message, $t = 0) {
     if(!$message) { die(); }
     $c = $this->getCon();
@@ -128,6 +128,7 @@ class PsyDB {
         die();
     }
   }
+  
   public function getErrorlog() {
     $c = $this->getCon();
     $q = $c->prepare("SELECT * FROM errorlog");

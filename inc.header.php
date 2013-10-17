@@ -10,12 +10,10 @@ session_start();
 include_once "config.php";
 include_once "includes/classes/class.forms.php";
 include_once "includes/classes/class.skap.php";
-include "includes/classes/class.db.php";
+include_once "includes/classes/class.db.php";
 
 $forms = new PsyForms();
 $db = new PsyDB();
-
-checkHeaders($forms, $db);
 
 // set page: if logged in, set requested, else set to index
 if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
@@ -26,6 +24,10 @@ else {
   else $page = 'velkommen';
 }
 
+$model = 'model/'.$page.'php';
+if(file_exists($model)) {
+  include $model; // Perform headerscheck and business logic
+}
 
 // Set title
 $title = 'PsySkap | '.ucfirst($page);

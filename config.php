@@ -3,6 +3,9 @@
 	Page: config.php
 	Desc: Tools, all-accessible variables and such.
 */
+$version = "1.2.0"; // <major>.<minor>.<patch>
+$pris = 20;
+
 
 // Removes any whitespace from a string
 function removeWhiteSpace($toBeFixed) {
@@ -10,15 +13,6 @@ function removeWhiteSpace($toBeFixed) {
 	$sPattern = '/\s*/m'; 
 	$sReplace = '';
 	return preg_replace( $sPattern, $sReplace, $toBeFixed );
-}
-
-function checkHeaders($forms, $db) {
-	if(isset($_POST['_login_check']) && $_POST['_login_check']) {
-	  if(!$forms->validate_login($_POST['usr'], $_POST['pwd'], $db)) {
-	    validateUser($_POST['usr']);
-	    header("Location: ".$SERVER['PATH_INFO']."dashboard");
-	  }
-	}
 }
 
 // Check if user is logged in or not

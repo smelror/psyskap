@@ -6,5 +6,4 @@
 include 'inc.header.php';
 include 'pages/'.$page.'.php';
 include 'inc.footer.php';
-
 ?>
