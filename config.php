@@ -3,7 +3,7 @@
 	Page: config.php
 	Desc: Tools, all-accessible variables and such.
 */
-$version = "1.2.0"; // <major>.<minor>.<patch>
+$version = "1.3.1"; // <major>.<minor>.<patch>
 $pris = 20;
 
 
@@ -41,10 +41,6 @@ function menu($loggedin, $selected) {
 						     "url" => "skap",
 						     "text" => "Skap"
 						     ),
-				     "eiere" => array(
-						      "url" => "eiere",
-						      "text" => "Eiere"
-						      ),
 				     "semester" => array(
 							 "url" => "semester",
 							 "text" => "Semester"
@@ -82,6 +78,7 @@ function lia($url, $text, $class = '') {
   ($class == '')?  $line = '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>' : $line = '<li class="'.$class.'"><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>';
   echo $line;
 }
+
 function validateUser($userid) {
 	session_regenerate_id (); //this is an easy security measure
     $_SESSION['valid'] = 1;

@@ -7,10 +7,10 @@ if(!isset($_GET['p'])) header("Location: ".$SERVER['PATH_INFO']."velkommen"); //
 // startup and check
 session_start();
 
-include_once "config.php";
-include_once "includes/classes/class.forms.php";
-include_once "includes/classes/class.skap.php";
-include_once "includes/classes/class.db.php";
+require "config.php";
+require "includes/classes/class.forms.php";
+require "includes/classes/class.skap.php";
+require "includes/classes/class.db.php";
 
 $forms = new PsyForms();
 $db = new PsyDB();

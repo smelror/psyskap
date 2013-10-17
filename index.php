@@ -4,6 +4,6 @@
 	Desc: Loads up and runs requested page (if authenticated).
 */
 include 'inc.header.php';
-include 'pages/'.$page.'.php';
+include 'view/'.$page.'.php';
 include 'inc.footer.php';
 ?>

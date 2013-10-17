@@ -3,7 +3,7 @@
 =================
 	PSYSKAP
 	INSTALL
-	v 1.2.1
+	v 1.5.1
 =================
 */
 include_once 'includes/classes/class.db.php';
@@ -19,6 +19,7 @@ if(!isset($_POST['addModerator'])) {
 	print "<p>Oppretter database-tabeller:</p>";
 
 	// Create 'eiere' - works!
+	/*
 	echo "<p>Opretter eiere...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS eiere (
@@ -30,9 +31,10 @@ if(!isset($_POST['addModerator'])) {
 			PRIMARY KEY(id)
 		);");
 	echo "OK!</p>";
+	*/
 
 	// Create 'forslag' - works!
-	echo "<p>Oppretter forslag...";
+	/* echo "<p>Oppretter forslag...";
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS forslag (
 			navn varchar(30) NOT NULL,
@@ -40,6 +42,7 @@ if(!isset($_POST['addModerator'])) {
 			PRIMARY KEY(navn)
 		);");
 	echo "OK!</p>";
+	*/
 
 	// Create 'skap' - works!
 	echo "<p>Oppretter skap...";
@@ -49,7 +52,8 @@ if(!isset($_POST['addModerator'])) {
 			rom varchar(8) NOT NULL,
 			bygg varchar(8) NOT NULL,
 			betalt int(1) NOT NULL DEFAULT '0',
-			eier int(10) NOT NULL,
+			eier varchar(30) NULL,
+			merknad text,
 			PRIMARY KEY(skapnr)
 		);");
 	echo "OK!</p>";
@@ -103,8 +107,7 @@ if(!isset($_POST['addModerator'])) {
 		$skapadd = array(
 			'skapnr' => $data[0],
 			'rom' => $data[1],
-			'bygg' => $data[2],
-			'pris' => $data[3]		
+			'bygg' => $data[2]		
 		);
 		array_push($all_skap, $skapadd);
 	    }
@@ -121,7 +124,7 @@ if(!isset($_POST['addModerator'])) {
 	// if table is empty, populate it
 	if($count == 0) {
 		// Insert skap into db - should work (better?)
-		$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg, pris) VALUES (:skapnr, :rom, :bygg, :pris)");
+		$q = $db->prepare("INSERT INTO skap (skapnr, rom, bygg) VALUES (:skapnr, :rom, :bygg)");
 		foreach ($all_skap as $skap) {
 			$q->execute($skap);
 			$skapcount++;
@@ -134,7 +137,7 @@ if(!isset($_POST['addModerator'])) {
 	echo '<p>Legger til semestre i database...';
 	$semestre = array();
 	$y = date('y');
-	for ($x = 0; $x < 3; $x++) {
+	for ($x = 0; $x < 6; $x++) {
 		$semestre[] = "H".($y+$x);
 		$semestre[] = "V".($y+$x);
 	}

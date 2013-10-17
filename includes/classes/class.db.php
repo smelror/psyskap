@@ -70,6 +70,12 @@ class PsyDB {
   }
 
   /*
+    Semester transactions
+  */
+  // clearOwners()
+
+
+  /*
     User transactions
   */
   public function getUser($usr) {
@@ -101,21 +107,7 @@ class PsyDB {
       return false;
     }
   }
-
-  /*
-    Suggestions transactions
-  */
-  public function addSuggestion($eier, $skap) {
-    $c = $this->getCon();
-    try {
-      $q = $c->prepare("INSERT INTO forslag (navn, skap) VALUES (?, ?)");
-      $q->execute(array($eier, $skap));
-      return true;
-    } catch (PDOException $e) {
-      $this->logit('db.addSuggestion failed: '.$e->getMessage() .'', 1);
-      return false;
-    }
-  }
+  
   // $t = type(1 = error, 0 = historikk)
   public function logit($message, $t = 0) {
     if(!$message) { die(); }
@@ -128,7 +120,7 @@ class PsyDB {
         die();
     }
   }
-  
+
   public function getErrorlog() {
     $c = $this->getCon();
     $q = $c->prepare("SELECT * FROM errorlog");
@@ -140,5 +132,5 @@ class PsyDB {
       $string = md5(uniqid(rand(), true));
       return substr($string, 0, 3);
   }
-  } // PsyDB
+} // PsyDB
 ?>

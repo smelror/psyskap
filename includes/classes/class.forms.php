@@ -7,7 +7,7 @@ class PsyForms {
 	
 	public function finnSkap($id, $target, $db) {
 	    $this->form_open($id, $target);
-		$this->skapTree($db);
+		$this->skapTree($db, true);
 		$this->resetKey('skap');
 		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
 		$this->resetKey('selSkap');
@@ -94,7 +94,7 @@ class PsyForms {
 		}
 		$this->resetKey('eier');
 		$this->input_text('eier', $_POST, 'UiO-brukernavn (ikke @student.sv.uio.no)');
-		$this->skapTree($db);
+		$this->skapTree($db, false);
 		$this->resetKey('skap');
 		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
 		$this->resetKey('selSkap');
@@ -118,14 +118,21 @@ class PsyForms {
 		return $errors;
 	}
 
-	private function skapTree($db) {
+	private function skapTree($db, $show_occupied) {
 		$alleSkap = $db->getAllSkap();
 		$skap_nybygg = array();
 		$skap_gamleb = array();
 		foreach ($alleSkap as $s) {
 			$tempSkap = new Skap($s);
-			if($s['bygg'] == 'Nybygg') $skap_nybygg[] = $tempSkap;
-			else $skap_gamleb[] = $tempSkap;
+			if($show_occupied) {
+				if($s['bygg'] == 'Nybygg') $skap_nybygg[] = $tempSkap;
+				else $skap_gamleb[] = $tempSkap;
+			} else {
+				if($tempSkap->isAvailable()) {
+					if($s['bygg'] == 'Nybygg') $skap_nybygg[] = $tempSkap;
+					else $skap_gamleb[] = $tempSkap;
+				}
+			}
 		}
 		// Set up building tabs
 
