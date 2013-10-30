@@ -17,7 +17,6 @@ html { height: 101%; } /* Force vertical scrollbar */
 #pageContent table tr th { background-color: #eee; font-family: Arial, sans-serif; font-size: .9em; padding: 4px; text-shadow: #fff 1px 1px 1px; }
 
 ul#nav { position: relative !important; }
-#nav li.logout a { margin-left: 2.5em; }
 #nav li.logout a:hover { background-color: #f00; color: #000;}
 /*
 	CTA Buttons
@@ -40,7 +39,7 @@ ul#nav { position: relative !important; }
 	}
 	.actionButtonList li a span.maintext { display: block; }
 	.actionButtonList li a span.helptext { display: block; font-size: .8em; font-family: Arial, sans-serif; }
-	.actionButtonList li a:hover { background-color:#fefefe; text-shadow: 1px 1px 0px #f5f5f5; }
+	.actionButtonList li a:hover { background-color: #FFFF8B; }
 	.actionButtonList li a:active { box-shadow:inset 0 1px 2px #666; top: 2px; background-color: #dedede; }
 	/*
 		.actionButtonList icons for special buttons
@@ -56,17 +55,36 @@ ul#nav { position: relative !important; }
 	Skap table
 */
 .skapTable { border-collapse: collapse; width: 100%; }
-	.skapTable tr { border: 1px #eee solid; }
+	.skapTable tr { 
+		border: 2px #eee solid;
+		-webkit-transition: background-color 0.3s linear;
+		-moz-transition: background-color 0.3s linear;
+		-o-transition: background-color 0.3s linear;
+	  	transition: background-color 0.3s linear;	
+	}
+	.skapTable .skapTableBody { margin-bottom: 10px; }
+	.skapTable tr:hover { background-color: #FEEFB3; }
 	.skapTable tr td { padding: 10px; }
 	.skapTable tr th { background-color: #eee; font-family: Arial, sans-serif; padding: 8px; text-shadow: #fff 1px 1px 1px; border-right: 4px #fff solid; }
-	.skapTable td.nummer { width: 65px; font-size: 1.3em; }
-	.skapTable td.rom { width: 65px; font-size: 1.3em; }
 
+	.skapTable th.nummer, .skapTable th.rom { width: 70px; font-size: 1.1em; }
+	.skapTable th.eier { width: 150px; }
+	.skapTable th.bet { width: 160px; }
+
+	.skapTable tr td.betaling {
+		opacity: 0.6;
+		-webkit-transition: opacity 0.5s linear;
+		-moz-transition: opacity 0.5s linear;
+		-o-transition: opacity 0.5s linear;
+	  	transition: opacity 0.5s linear;	
+	}
+	.skapTable tr:hover td.betaling { opacity: 0.8; }
+	.skapTable tr td.betaling:hover { opacity: 1; }
 
 /*
 	UI buttons
 */
-[class*='btn-'] {
+[class*='btn'] {
 	border-radius: 4px;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
 	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
@@ -82,9 +100,9 @@ ul#nav { position: relative !important; }
 	-webkit-transition: background-color 0.1s linear;
 	-moz-transition: background-color 0.1s linear;
 	-o-transition: background-color 0.1s linear;
-	  transition: background-color 0.1s linear;	
+	transition: background-color 0.1s linear;	
 }
-[class*='btn-']:hover {
+[class*='btn']:hover {
 		cursor: pointer;
 	}
 
@@ -97,6 +115,28 @@ ul#nav { position: relative !important; }
 	}
 	.btn-green:active {
 		background-color: rgb( 33, 126, 74 );
+	}
+
+.btn-red {
+	background-color: rgb( 207, 56, 91 );
+	border: 1px solid rgb( 187, 40, 74 );
+}
+	.btn-red:hover {
+		background-color: rgb( 227, 77, 130 );
+	}
+	
+	.btn-red:active {
+		background-color: rgb( 187, 40, 74 );
+	}
+
+.btn-grey {
+	background-color: #ccc;
+	border: 1px solid #999;
+	color: #c0392b;
+}
+	.btn-grey:hover {
+		background-color: #999;
+		color: #fff;
 	}
 
 /*
@@ -132,14 +172,13 @@ ul#nav { position: relative !important; }
 			-o-transition: box-shadow 0.1s ease-out;
 		}
 		.skapListe .skap:hover {
-			background: #F9F9F9;
 			box-shadow: 0 15px 10px -13px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1) inset;
 			text-shadow: #fff 1px 1px 4px;
 		}
 		.skapListe .skap:active { background: #9AC0FA; top: 1px; text-shadow: #fff 1px 1px 1px; }
 
 .building-container { padding: .3em; }
-	.building-tabs-list { border-bottom: 1px #ccc solid; padding: 0; line-height: 1.3; }
+	.building-tabs-list { border-bottom: 1px #ccc solid; padding: 0; line-height: 1.5; }
 		.building-tab {
 			cursor: pointer;
 			background: #F9F9F9;
@@ -167,6 +206,8 @@ ul#nav { position: relative !important; }
 .skapPris { background-position: 0px -192px; }
 .skapEta { background-position: 0px -154px; }
 
+#toolbox { margin: 18px 0; }
+
 
 /*
 	Tools and general styling
@@ -184,6 +225,8 @@ ul#nav { position: relative !important; }
 .alignRight { text-align: right; }
 .alignLeft { text-align: left; }
 .alignCenter { text-align: center; }
+.floatRight { float: right; }
+.floatLeft { float: left; }
 .noBorder { border: none !important; }
 .raised { box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 3px rgba(0, 0, 0, 0.1) inset;	}
 .info, .success, .warning, .error { border: 1px solid; border-radius: 3px; padding: 15px 10px; list-style-type: none; margin-top: 0; }
@@ -192,3 +235,4 @@ ul#nav { position: relative !important; }
 .success { color: #4F8A10; background-color: #DFF2BF; }
 .warning { color: #9F6000; background-color: #FEEFB3; }
 .error { color: #D8000C; background-color: #FFBABA; }
+label { cursor: pointer; }

@@ -11,6 +11,7 @@
 test.php
 uninstall.php
 install.php
+psyjax.php
 
 # test-creds in db atm
 includes/classes/class.db.php

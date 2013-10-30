@@ -34,6 +34,8 @@ echo '</div>'; // wrapper
 
 echo '<div id="footer">';
   if(is_logged_in()) echo '<p>PsychAid &copy; 2003 - 2012</p>';
-  else echo '<p>PsychAid <a href="login">&copy;</a> 2003 - 2012</p>';
+  else echo '<p>PsychAid <a href="http://psychaid.no/skap/login">&copy;</a> 2003 - 2012</p>';
 echo '</div>';
+echo '</body>';
+echo '</html>';
 ?>

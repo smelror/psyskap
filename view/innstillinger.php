@@ -68,8 +68,8 @@ elseif ($sub == 'mods') {
         echo '<p class="success"><strong>'.$_POST['mod'].'</strong> ble opprettet!';
         $message = "
           Hei!<br><br>
-          Din epostadresse er registrert som moderator i PsySkap (http://www.psychaid.no/skap), og kan logge inn via<br>
-          http://www.psychaid.no/skap/login <br><br>
+          Din epostadresse er registrert som moderator i PsySkap (http://psychaid.no/skap), og kan logge inn via<br>
+          http://psychaid.no/skap/login <br><br>
           usr: ".$_POST['mod']." <br>
           pwd: ".$_POST['pwd']." <br><br>
           Vi anbefaler at du endrer passord etter å ha logget inn. <br><br>

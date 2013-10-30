@@ -51,7 +51,7 @@ if(!isset($_POST['addModerator'])) {
 			skapnr varchar(5) NOT NULL,
 			rom varchar(8) NOT NULL,
 			bygg varchar(8) NOT NULL,
-			betalt int(1) NOT NULL DEFAULT '0',
+			status int(1) NOT NULL DEFAULT '0',
 			eier varchar(30) NULL,
 			merknad text,
 			PRIMARY KEY(skapnr)

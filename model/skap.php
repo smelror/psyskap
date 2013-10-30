@@ -13,24 +13,33 @@ function createTable($id, $skap_array) {
 	echo '<table class="skapTable" id="'.$id.'">';
 	echo '<thead>
 			<tr>
-				<th class="alignCenter">Skapnr</th>
-				<th class="alignCenter">Etg</th>
-				<th>Eier</th>
-				<th>Betalt</th>
+				<th class="nummer alignCenter">Skapnr</th>
+				<th class="rom alignCenter">Etg</th>
+				<th class="eier">Eier</th>
+				<th class="bet">Betalt</th>
 				<th class="noBorder">Merknad</th>
 			</tr>
 		  </thead>
-		  <tbody>';
+		  <tbody class="skapTableBody">';
 	foreach ($skap_array as $skap) {
-		echo '<tr id="'.$skap->getNr().'">';
-		echo '<td class="nummer alignCenter">'.$skap->getNr().'</td>';
-		echo '<td class="rom alignCenter">'.$skap->getRom().'</td>';
+		echo '<tr id="'.$skap->getNr().'"';
+		if($skap->getStatus() == 1) echo 'class="success"';
+		if($skap->getStatus() == 2) echo 'class="error"';
+		echo '>';
+		echo '<td class="alignCenter">'.$skap->getNr().'</td>';
+		echo '<td class="alignCenter">'.$skap->getRom().'</td>';
 		echo '<td>'.$skap->getEier().'</td>';
-		if($skap->isBetalt()) {
-			echo '<td>Ja.</td>';	
+		echo '<td class="betaling">';
+		if($skap->getStatus() == 0) {
+			echo '<button type="button" class="btn-green" id="betal-'.$skap->getNr().'">Betalt</button>';
+			echo '<button type="button" class="btn-red" id="klipp-'.$skap->getNr().'">Klipp</button>';
+			echo '<button type="button" style="display: none;" class="btn-grey" id="angre-'.$skap->getNr().'">Angre</button></td>';	
 		} else {
-			echo '<td><button type="button" class="btn-green" id="betal-'.$skap->getNr().'">Betalt</button></td>';	
+			echo '<button type="button" style="display: none;" class="btn-green" id="betal-'.$skap->getNr().'">Betalt</button>';
+			echo '<button type="button" style="display: none;" class="btn-red" id="klipp-'.$skap->getNr().'">Klipp</button>';
+			echo '<button type="button" class="btn-grey" id="angre-'.$skap->getNr().'">Angre</button></td>';	
 		}
+		echo '</td>';
 		echo '<td>'.$skap->getMerknad().'</td>';
 		echo '</tr>';
 	}

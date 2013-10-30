@@ -3,7 +3,6 @@
 	Page: login.php
 	Desc: Login for moderators/admins.
 */
-if($hei) { echo $hei; }
 	echo '<h1>PsySkap: Logg inn</h1>';
 	$forms->login($errs);
 ?>

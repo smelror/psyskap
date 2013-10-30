@@ -9,7 +9,7 @@ if(isset($_POST['selSkap']) && $_POST['selSkap']) {
 		$registrert = false;
 	} else {
 		$skap = new Skap($db->getSkap($_POST['selSkap']));
-		$registrert = $skap->set('eier', $_POST['eier'], $db);
+		$registrert = $skap->setOwner($_POST['eier'], $db);
 		if(!$registrert) {
 			$errs[] = 'Systemfeil! Ta kontakt med PsychAid p&aring; kontakt@psychaid.no.';
 		}

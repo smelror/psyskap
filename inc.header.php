@@ -48,7 +48,7 @@ $title = 'PsySkap | '.ucfirst($page);
 <div id="menu">
   <div class="row">
     <p id="logo">
-      <?php $homeurl; if(is_logged_in()) $homeurl = 'http://www.psychaid.no/skap/dashboard'; else $homeurl = 'http://www.psychaid.no/';
+      <?php $homeurl; if(is_logged_in()) $homeurl = 'http://psychaid.no/skap/dashboard'; else $homeurl = 'http://www.psychaid.no/';
       echo '<a href="'.$homeurl.'">'; ?>
         <img class="transOpacity" src="http://www.psychaid.no/wp-content/themes/psychaid_v2/pics/psychaid_logo.png" alt="PsychAid" title="PsychAid" />
       </a>

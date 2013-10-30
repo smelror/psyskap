@@ -3,8 +3,8 @@
 	Page: config.php
 	Desc: Tools, all-accessible variables and such.
 */
-$version = "1.3.1"; // <major>.<minor>.<patch>
-$pris = 20;
+define("VERSION","0.6.1"); // <major>.<minor>.<patch>
+define("PRIS", 20);
 
 
 // Removes any whitespace from a string
@@ -83,7 +83,10 @@ function validateUser($userid) {
 	session_regenerate_id (); //this is an easy security measure
     $_SESSION['valid'] = 1;
 	$_SESSION['userid'] = $userid;
+	$token = md5(rand(1000,9999)); //you can use any encryption
+  	$_SESSION['token'] = $token; //store it as session variable
 }
+
 /**
  * Function responsible for sending unicode emails.
  *
