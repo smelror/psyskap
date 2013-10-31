@@ -13,12 +13,12 @@ echo '<p class="building-tabs-list">';
 echo '</p>'; // .building-tabs-list
 
 // Tools
-echo '<div id="toolbox">';
+echo '<div id="toolbox" class="clearfix">';
 echo '<p class="floatLeft">';
     echo '<input type="radio" name="visSkap" id="visAlle" value="all" checked="checked"><label for="visAlle">Alle</label>';
     echo '<input type="radio" name="visSkap" id="visUbetalt" value="ubet"><label for="visUbetalt">Ubetalte</label>';
-    echo '<input type="radio" name="visSkap" id="visBetalt" value="bet"><label for="visBetalt">Betalte</label>';
-    echo '<input type="radio" name="visSkap" id="visKlippet" value="kli"><label for="visKlippet">Klippet</label></p>';
+    echo '<input type="radio" name="visSkap" id="vissuccess" value="bet"><label for="vissuccess">Betalte</label>';
+    echo '<input type="radio" name="visSkap" id="viserror" value="kli"><label for="viserror">Klippet</label></p>';
 echo '<p class="floatRight"><label for="skapFilter">S&oslash;k: </label><input type="text" id="skapFilter" value=""></p>';
 echo '</div>'; // .toolbox
 
@@ -26,13 +26,19 @@ echo '<div id="nybygget" class="clearfix">';
 createTable('nybygget', $skap_nybygg);
 echo '</div>';
 
-echo '<div id="gamlebygget" style="display: none;">';
+echo '<div id="gamlebygget" class="clearix" style="display: none;">';
 createTable('gamlebygget', $skap_gamleb);
 echo '</div>';
 
 echo '<div class="clearer clearfix grayTopLine">&nbsp;</div>'; // Boxes it in
 ?>
 <script type="text/javascript">
+
+$.ajaxSetup ({
+    type: "POST",
+    url: 'http://psychaid.no/skap/psyjax.php' // Does not like requests from www-subdomain!
+});
+
 $("button").on("click", function() {
     var id = $(this).attr("id").substring(6);
     var parTr = $(this).closest("tr");
@@ -40,7 +46,7 @@ $("button").on("click", function() {
     
     // Everything set, now's the time to find out what button it is
     var butClass = $(this).attr("class"); // btn-grey, btn-red, btn-green
-    var butAction = "";
+    var butAction;
     switch (butClass) {
         case 'btn-green':
             butAction = "betal";
@@ -60,13 +66,10 @@ $("button").on("click", function() {
         token: '<?php echo $_SESSION['token']; ?>',
         action: butAction
     };
-    $.ajaxSetup ({
-        type: "POST",
-        url: 'http://psychaid.no/skap/psyjax.php' // Does not like requests from www-subdomain!
-    });
     $.ajax({
         data: skapAction
-    }).done(function( response ) {
+    })
+    .done(function( response ) {
         switch (response) {
             case 'BETALT':
                 parTr.addClass("success");
@@ -93,6 +96,68 @@ $("button").on("click", function() {
                 break;
         }
     });
+});
+
+// Add input field for adding/editing owner name
+$("td.owner").on('click', function() {
+    if( $("#editOwner").length ) { return; }
+    if( !$(this).html() )  {
+        $(this).append('<input type="text" id="editOwner" value="">');
+    } else {
+        var name = $(this).text();
+        $(this).attr('id', name);
+        $(this).empty();
+        $(this).append('<input type="text" id="editOwner" value="'+name+'">');
+    }
+    $("#editOwner").putCursorAtEnd();
+});
+
+$(document).on('blur','input#editOwner', function() {
+    var parTr = $(this).closest("tr");
+    var parTd = $(this).closest("td");
+    var name = $(this).val();
+    if(parTd.attr('id') === name) { 
+        $(this).remove();
+        parTd.removeAttr('id');
+        parTd.append(name);
+        return;
+    }
+    var skapAction = {
+        skapnr: parTr.attr('id'),
+        token: '<?php echo $_SESSION['token']; ?>',
+        action: 'setName',
+        name: name
+    };
+    $.ajax({
+        data: skapAction
+    })
+    .done(function( response ) {
+        // console.log("Set: "+name+". Resonse: " + response);
+        parTd.append(name);
+    })
+    .fail(function( response ) {
+        alert("Navnendring skjedde ikke: " + response);
+    });
+    parTd.removeAttr('id');
+    $(this).remove();
+});
+
+// Filter radio buttons
+$("input[name='visSkap']").on('change', function() {
+    var selAct = $(this).attr('id').substring(3); // Selected action
+    var allRows = $(".skapTableBody").find("tr");
+    if(selAct === "Alle") {
+        allRows.show();
+        return; // Breaks the filtering process
+    }
+    allRows.hide();
+    if(selAct === "Ubetalt") {
+        allRows.show();
+        allRows.filter(".error").hide();
+        allRows.filter(".success").hide();
+    } else {
+        allRows.filter("."+selAct).show();
+    }
 });
 
 // Filter search
@@ -131,7 +196,6 @@ $("#tab-ny").click(function () {
     $("#tab-gamle").removeClass("selected-tab");
     $("div#gamlebygget").hide();
     $("div#nybygget").show();
-    retur
 });
 $("#tab-gamle").click(function () {
     $(this).addClass("selected-tab");
@@ -139,4 +203,26 @@ $("#tab-gamle").click(function () {
     $("div#nybygget").hide();
     $("div#gamlebygget").show();
 });
+
+
+// http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
+jQuery.fn.putCursorAtEnd = function() {
+  return this.each(function() {
+    $(this).focus()
+    // If this function exists...
+    if (this.setSelectionRange) {
+      // ... then use it (Doesn't work in IE)
+      // Double the length because Opera is inconsistent about whether a carriage return is one character or two. Sigh.
+      var len = $(this).val().length * 2;
+      this.setSelectionRange(len, len);
+    } else {
+    // ... otherwise replace the contents with itself
+    // (Doesn't work in Google Chrome)
+      $(this).val($(this).val());
+    }
+    // Scroll to the bottom, in case we're in a tall textarea
+    // (Necessary for Firefox and Google Chrome)
+    this.scrollTop = 999999;
+  });
+};
 </script>

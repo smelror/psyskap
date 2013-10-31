@@ -13,22 +13,22 @@ function createTable($id, $skap_array) {
 	echo '<table class="skapTable" id="'.$id.'">';
 	echo '<thead>
 			<tr>
-				<th class="nummer alignCenter">Skapnr</th>
+				<th class="nummer alignCenter">#</th>
 				<th class="rom alignCenter">Etg</th>
 				<th class="eier">Eier</th>
 				<th class="bet">Betalt</th>
-				<th class="noBorder">Merknad</th>
+				<th class="merknad noBorder">Merknad</th>
 			</tr>
 		  </thead>
 		  <tbody class="skapTableBody">';
 	foreach ($skap_array as $skap) {
 		echo '<tr id="'.$skap->getNr().'"';
 		if($skap->getStatus() == 1) echo 'class="success"';
-		if($skap->getStatus() == 2) echo 'class="error"';
+		elseif($skap->getStatus() == 2) echo 'class="error"';
 		echo '>';
 		echo '<td class="alignCenter">'.$skap->getNr().'</td>';
 		echo '<td class="alignCenter">'.$skap->getRom().'</td>';
-		echo '<td>'.$skap->getEier().'</td>';
+		echo '<td class="owner">'.$skap->getEier().'</td>';
 		echo '<td class="betaling">';
 		if($skap->getStatus() == 0) {
 			echo '<button type="button" class="btn-green" id="betal-'.$skap->getNr().'">Betalt</button>';

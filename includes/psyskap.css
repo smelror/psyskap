@@ -67,9 +67,10 @@ ul#nav { position: relative !important; }
 	.skapTable tr td { padding: 10px; }
 	.skapTable tr th { background-color: #eee; font-family: Arial, sans-serif; padding: 8px; text-shadow: #fff 1px 1px 1px; border-right: 4px #fff solid; }
 
-	.skapTable th.nummer, .skapTable th.rom { width: 70px; font-size: 1.1em; }
+	.skapTable th.nummer, .skapTable th.rom { font-size: 1.1em; width: 55px;}
 	.skapTable th.eier { width: 150px; }
 	.skapTable th.bet { width: 160px; }
+	.skapTable th.merknad { min-width: 220px; }
 
 	.skapTable tr td.betaling {
 		opacity: 0.6;
@@ -80,6 +81,8 @@ ul#nav { position: relative !important; }
 	}
 	.skapTable tr:hover td.betaling { opacity: 0.8; }
 	.skapTable tr td.betaling:hover { opacity: 1; }
+	.skapTable tr td button { margin-right: 8px; }
+	.skapTable tr td input#editOwner { max-width: 120px; padding: 3px; }
 
 /*
 	UI buttons
@@ -206,7 +209,12 @@ ul#nav { position: relative !important; }
 .skapPris { background-position: 0px -192px; }
 .skapEta { background-position: 0px -154px; }
 
-#toolbox { margin: 18px 0; }
+#toolbox { margin: 18px 0; opacity: 0.4;
+		-webkit-transition: opacity 0.3s linear;
+		-moz-transition: opacity 0.3s linear;
+		-o-transition: opacity 0.3s linear;
+	  	transition: opacity 0.3s linear; }
+#toolbox:hover { opacity: 1; }
 
 
 /*
