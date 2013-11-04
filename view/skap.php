@@ -5,7 +5,7 @@
 */
 echo '<h1>Skap</h1>';
 
-echo '<p>Halla!</p>';
+echo '<p></p>';
 
 echo '<p class="building-tabs-list">';
     echo '<span class="building-tab selected-tab" id="tab-ny">Nybygget</span>';
@@ -48,18 +48,10 @@ $("button").on("click", function() {
     var butClass = $(this).attr("class"); // btn-grey, btn-red, btn-green
     var butAction;
     switch (butClass) {
-        case 'btn-green':
-            butAction = "betal";
-            break;
-        case 'btn-red':
-            butAction = "klipp";
-            break;
-        case 'btn-grey':
-            butAction = "angre";
-            break;
-        default:
-            butAction = "angre";
-            break;
+        case 'btn-green': butAction = "betal"; break;
+        case 'btn-red': butAction = "klipp"; break;
+        case 'btn-grey': butAction = "angre";break;
+        default: butAction = "angre"; break;
     }
     var skapAction = {
         skapnr: id,
@@ -95,6 +87,7 @@ $("button").on("click", function() {
             default:
                 break;
         }
+
     });
 });
 

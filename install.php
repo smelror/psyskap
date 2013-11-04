@@ -130,7 +130,7 @@ if(!isset($_POST['addModerator'])) {
 			$skapcount++;
 		}
 	}
-	if($skapcount == 705) print "<p>All skap registrert.</p>";
+	if($skapcount == 705) print "<p>Alle skap registrert.</p>";
 	else print '<p class="warning">Ikke alle skap ble registrert.</p>';
 
 	// Legger til semestre og setter current == nåværende semester

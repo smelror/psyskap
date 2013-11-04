@@ -93,7 +93,7 @@ class PsyForms {
 			echo '</li></ul>';
 		}
 		$this->resetKey('eier');
-		$this->input_text('eier', $_POST, 'UiO-brukernavn (ikke @student.sv.uio.no)');
+		$this->input_text('eier', $_POST, 'UiO-brukernavn (det som er foran <em>@student.sv.uio.no</em>)');
 		$this->skapTree($db, false);
 		$this->resetKey('skap');
 		$this->input_hidden('skap', ''); // JS from skapTree() sets the value
@@ -303,7 +303,7 @@ class PsyForms {
 	}
 	private function input_password($field_name, $values, $labelname, $class = '') {
 		$pwd = '<p><label for="'. $field_name .'">'. $labelname .'</label>';
-		$pwd .= '<input type="password" name="' . $field_name .'" id="' . $field_name .'" class="'.$class.'" value="';
+		$pwd .= '<input type="password" name="' . $field_name .'" id="' . $field_name .'" placeholder="Passord" class="'.$class.'" value="';
 		$pwd .= htmlentities($values[$field_name]) . '"></p>';
 		return print $pwd;
 	}

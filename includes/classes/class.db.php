@@ -72,6 +72,23 @@ class PsyDB {
   /*
     Semester transactions
   */
+  public function get_all_semesters() {
+    $sems = array();
+    $c = $this->getCon();
+    $q = $c->prepare("SELECT * FROM semester ORDER BY id ASC");
+    $q->execute();
+    $sems = $q->fetchAll();
+    return $sems;
+  }
+
+  public function get_current_semester() {
+    $c = $this->getCon();
+    $q = $c->prepare("SELECT * FROM semester WHERE current = :cr");
+    $q->execute(array(':cr' => 1));
+    $cur = $q->fetch();
+    return $cur;
+  }
+
   // clearOwners()
 
 

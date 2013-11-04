@@ -11,10 +11,10 @@ if(!empty($skap)) {
   $nrclass = ''; $nrtitle = '';
   ($skap->getEier()) ? $nrclass = 'skapNr-na' : $nrclass = 'skapNr-a';
   ($skap->getEier()) ? $nrtitle = 'Skapet er opptatt' : $nrtitle = 'Skapet er ledig!';
-    echo '<p class="'.$nrclass.'" title="'.$nrtitle.'">Nummer: '.$skap->getNr().'</p>';
-    echo '<p class="skapEtg">Etasje: '.$skap->getRom().'</p>';
-    echo '<p class="skapBygg">Bygg: '.$skap->getBygg().'</p>'; 
-    echo '<p class="skapPris">Pris: '.PRIS.' NOK</p>';
+    echo '<p class="'.$nrclass.'" title="'.$nrtitle.'">'.$skap->getNr().'</p>';
+    echo '<p class="skapEtg">'.$skap->getRom().'</p>';
+    echo '<p class="skapBygg">'.$skap->getBygg().'</p>'; 
+    echo '<p class="skapPris">'.PRIS.' NOK</p>';
     echo '<p><a href="http://www.psychaid.no/skap/finn&skap='.$skap->getNr().'">Direktelenke for '.$skap->getNr().'</a></p>';
   echo '</div>';
   // Display skap here.

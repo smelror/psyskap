@@ -3,7 +3,7 @@
 	Page: config.php
 	Desc: Tools, all-accessible variables and such.
 */
-define("VERSION","0.6.1"); // <major>.<minor>.<patch>
+define("VERSION","0.7.0"); // <major>.<minor>.<patch>
 define("PRIS", 20);
 
 

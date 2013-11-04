@@ -21,7 +21,7 @@ if(isset($_GET['p']) && is_logged_in()) $page = $_GET['p'];
 else {
   $allowed = array('login', 'velkommen', 'finn', 'register');
   if(in_array($_GET['p'], $allowed)) $page = $_GET['p'];
-  else $page = 'velkommen';
+  else header("Location: ".$SERVER['PATH_INFO']."velkommen");
 }
 
 $model = 'model/'.$page.'.php';
