@@ -30,7 +30,7 @@ if(file_exists($model)) {
 }
 
 // Set title
-$title = 'PsySkap | '.ucfirst($page);
+$title = 'Bokskap PSI | '.ucfirst($page);
 
 ?><!doctype html>
 <html lang="no">

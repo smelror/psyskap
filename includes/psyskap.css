@@ -55,43 +55,95 @@ ul#nav { position: relative !important; }
 	Skap table
 */
 .skapTable { border-collapse: collapse; width: 100%; }
-	.skapTable tr { 
-		border: 2px #eee solid;
-		-webkit-transition: background-color 0.2s linear;
-		-moz-transition: background-color 0.2s linear;
-		-o-transition: background-color 0.2s linear;
-	  	transition: background-color 0.2s linear;	
-	}
+	.skapTable tr { border: 2px #eee solid;	transition: background-color 0.2s linear; }
 	.skapTable .skapTableBody { margin-bottom: 10px; }
 	.skapTable tr:hover { background-color: #FFFCEF; }
-	.skapTable tr td { padding: 10px; }
+	.skapTable tr td { padding: 6px; }
 	.skapTable tr th { background-color: #eee; font-family: Arial, sans-serif; padding: 8px; text-shadow: #fff 1px 1px 1px; border-right: 4px #fff solid; }
 
 	.skapTable th.nummer, .skapTable th.rom { font-size: 1.1em; width: 55px;}
 	.skapTable th.eier { width: 150px; }
-	.skapTable th.bet { width: 160px; }
-	.skapTable th.merknad { min-width: 220px; }
+	.skapTable th.bet { width: 110px; }
+	.skapTable th.merknad { width: 65px; }
 
-	.skapTable tr td.betaling {
-		opacity: 0.6;
-		-webkit-transition: opacity 0.5s linear;
-		-moz-transition: opacity 0.5s linear;
-		-o-transition: opacity 0.5s linear;
-	  	transition: opacity 0.5s linear;	
-	}
+	.skapTable tr td.betaling { opacity: 0.6; transition: opacity 0.5s linear; }
 	.skapTable tr:hover td.betaling { opacity: 0.8; }
 	.skapTable tr td.betaling:hover { opacity: 1; }
+	.skapTable tr td.owner { cursor: pointer; }
+	.skapTable tr td.no-comment,
+	.skapTable tr td.has-comment { background: url("pics/icon-owner-comment.png") no-repeat transparent; cursor: pointer; }
+	.skapTable tr td.no-comment { background-position: center 20px; }
+	.skapTable tr td.has-comment { background-position: center -63px; }
+
 	.skapTable tr td button { margin-right: 8px; }
-	.skapTable tr td input#editOwner { max-width: 120px; padding: 3px; }
+	.skapTable tr td input#editOwner, #skapFilter { max-width: 140px; padding: 3px; border: 1px solid #dadada; border-radius: 3px; }
+	.skapTable tr td input#editOwner:focus, #skapFilter:focus { outline: none; border-color: #9ecaed; box-shadow: 0 0 3px #9ecaed; }
+	.skapTable tr td div#comBubble { position: absolute; margin-left: 100px; margin-top: -27px; }
+	.skapTable tr td textarea#editComment { border: none; background-color: #fffcd7; font-family: Georgia, serif; }
+	.skapTable tr td textarea#editComment:focus { outline: none; }
+
+	.triangle-border {
+		position:relative;
+		padding: 8px;
+		margin:1em 0 3em;
+		border:2px solid #a1a1a1;
+		color:#333;
+		background:#fffcd7;
+		border-radius:10px;
+	}
+	.triangle-border.left {
+		margin-left:30px;
+	}
+	/* creates the larger triangle */
+	.triangle-border.left:before {
+		top:10px; /* controls vertical position */
+		bottom:auto;
+		left:-30px; /* value = - border-left-width - border-right-width */
+		border-width:15px 30px 15px 0;
+		border-color:transparent #a1a1a1;
+	}
+
+	/* creates the smaller  triangle */
+	.triangle-border.left:after {
+		top:16px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+		bottom:auto;
+		left:-21px; /* value = - border-left-width - border-right-width */
+		border-width:9px 21px 9px 0;
+		border-color:transparent #fffcd7;
+	}
+	.triangle-border:before {
+		content:"";
+		position:absolute;
+		bottom:-20px; /* value = - border-top-width - border-bottom-width */
+		left:40px; /* controls horizontal position */
+	    border-width:20px 20px 0;
+		border-style:solid;
+	    border-color:#a1a1a1 transparent;
+	    /* reduce the damage in FF3.0 */
+	    display:block; 
+	    width:0;
+	}
+	/* creates the smaller  triangle */
+	.triangle-border:after {
+		content:"";
+		position:absolute;
+		bottom:-13px; /* value = - border-top-width - border-bottom-width */
+		left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+		border-width:13px 13px 0;
+		border-style:solid;
+		border-color:#fffcd7 transparent;
+	    /* reduce the damage in FF3.0 */
+	    display:block; 
+	    width:0;
+	}
+
 
 /*
 	UI buttons
 */
 [class*='btn'] {
 	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
-	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
-	  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
 	color: #fff;
 	display: inline-block;
 	font-family: Arial, Helvetica, sans-serif;
@@ -99,10 +151,6 @@ ul#nav { position: relative !important; }
 	padding: 8px 16px;
 	text-decoration: none;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-	
-	-webkit-transition: background-color 0.1s linear;
-	-moz-transition: background-color 0.1s linear;
-	-o-transition: background-color 0.1s linear;
 	transition: background-color 0.1s linear;	
 }
 [class*='btn']:hover {
@@ -209,13 +257,7 @@ ul#nav { position: relative !important; }
 .skapPris { background-position: 0px -192px; }
 .skapEta { background-position: 0px -154px; }
 
-#toolbox { margin: 18px 0; opacity: 0.4;
-		-webkit-transition: opacity 0.3s linear;
-		-moz-transition: opacity 0.3s linear;
-		-o-transition: opacity 0.3s linear;
-	  	transition: opacity 0.3s linear; }
-#toolbox:hover { opacity: 1; }
-
+#toolbox { position: fixed; width: 150px; margin-left: -200px; border: 1px #efefef solid; border-radius: 2px; padding: 9px;}
 
 /*
 	Tools and general styling

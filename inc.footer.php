@@ -37,6 +37,9 @@ echo '<div id="footer">';
   else echo '<p>PsychAid <a href="http://psychaid.no/skap/login">&copy;</a> 2003 - 2012</p>';
   echo '<p>PsySkap (v'.VERSION.') av Vegard Smelror &Aring;mdal</p>';
 echo '</div>';
+if (function_exists('load_js')) {
+  load_js();
+}
 echo '</body>';
 echo '</html>';
 ?>

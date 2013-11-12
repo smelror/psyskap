@@ -89,9 +89,11 @@ if(!isset($_POST['addModerator'])) {
 	$db->exec("
 		CREATE TABLE IF NOT EXISTS semester (
 			id varchar(3) NOT NULL,
-			antall_eiere int(4),
 			current int(1) NOT NULL DEFAULT '0',
-			activated_by varchar(30) NULL,
+			ant_betalt int(3) NULL,
+			ant_klippet int(3) NULL,
+			started_by varchar(30) NULL,
+			ended_by varchar(30) NULL,
 			PRIMARY KEY(id)
 			);");
 	echo "OK!</p>";

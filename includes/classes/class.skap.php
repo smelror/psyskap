@@ -66,5 +66,20 @@ class Skap {
     return false;
   }
 
+  public function setMerknad($merknad, $db) {
+    try {
+      $c = $db->getCon();
+      $q = $c->prepare("UPDATE skap SET merknad = :msg WHERE skapnr = :nr");
+      $q->execute(array(
+        ":msg" => $merknad,
+        ":nr" => $this->getNr()
+        ));
+      return true;
+    } catch (PDOException $e) {
+      $db->logit("Skap.setMerknad.errror: ".$e->getMessage()."<br />");
+    }
+    return false;
+  }
+
 } // Skap
 ?>

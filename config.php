@@ -3,7 +3,7 @@
 	Page: config.php
 	Desc: Tools, all-accessible variables and such.
 */
-define("VERSION","0.7.0"); // <major>.<minor>.<patch>
+define("VERSION","0.8.1"); // <major>.<minor>.<patch>
 define("PRIS", 20);
 
 
@@ -83,7 +83,7 @@ function validateUser($userid) {
 	session_regenerate_id (); //this is an easy security measure
     $_SESSION['valid'] = 1;
 	$_SESSION['userid'] = $userid;
-	$token = md5(rand(1000,9999)); //you can use any encryption
+	$token = md5(mt_rand(1000,9999)); //you can use any encryption
   	$_SESSION['token'] = $token; //store it as session variable
 }
 
